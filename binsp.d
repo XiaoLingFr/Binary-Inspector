@@ -85,7 +85,7 @@ void main(string[] args){
             file = File(filename, "r");
             file_size = getSize(filename);
         }
-        catch(FileException){
+        catch(FileException FE){
             writeln(("Could not access file: " ~ filename));
             goto exit;
         }
