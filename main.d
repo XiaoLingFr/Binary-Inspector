@@ -1,6 +1,27 @@
 import std.stdio;
 import std.file;
 
+char[] hexchar = 
+[
+    '0',
+    '1',
+    '2',
+    '3',
+    '4',
+    '5',
+    '6',
+    '7',
+    '8',
+    '9',
+    'A',
+    'B',
+    'C',
+    'D',
+    'E',
+    'F'
+];
+
+string convert_to_hex(ubyte buffer, ulong seperation);
 void standard_file(File file);
 
 void main(string[] args){
@@ -14,10 +35,12 @@ void main(string[] args){
         writeln("File types include: document, executable");
     }
     else if(operation == "about"){
-        writeln("Contributors: \nChengfu Zhao (DaRealXiaoLing)");
+        writeln("Contributors: \nChengfu Zhao (XiaolingFr)");
     }
     else if(operation == "read"){
         File file;
+        ulong file_size;
+
         string filename;
         string filetype;
         if(args.length != 4){
@@ -55,6 +78,7 @@ void main(string[] args){
 
         try{
             file = File(filename, "r");
+            file_size = getSize(filename);
         }
         catch(FileException){
             writeln(("Could not access file: " ~ filename));
@@ -62,10 +86,10 @@ void main(string[] args){
         }
 
         if(filetype == "document"){
-            standard_file(file);
+            standard_file(file, file_size);
         }
         else if(filetype == "executable"){
-            standard_file(file);
+            standard_file(file, file_size);
         }
         else{
             writeln("File type not specified.");
@@ -81,11 +105,46 @@ void main(string[] args){
     return;
 }
 
-void standard_file(File file){
-    byte[16] buffer;
+void standard_file(File file, ulong file_size){
+    ubyte[32] buffer;
+    ulong remainder = file_size % 32;
 
     //load into buffer 16 bytes at a time
+    for(int i = 0; i<(file_size/32); i++){
+        try{
+            auto num_bytes = file.rawRead(buffer);
+            if(num_bytes.length == 0){
+                goto conclusion;
+            }
+            print_as_hex(num_bytes, 8, num_bytes.length);
+        }
+        catch(Exception error){
+            writeln("Could not load file into buffer: ", error);
+            goto conclusion;
+        }
+    }
     
-    
+    conclusion:
+    return;
+}
+
+void print_as_hex(ubyte[] buffer, ulong seperation, ulong num){
+    if (buffer.length % seperation != 0){
+        return;
+    }
+    for(int i = 0; i<(num); i++){
+        if(i % seperation == 0 && i!= 0){
+            write("  ");
+            goto cont;
+        }
+        if(i % 2 == 0 && i != 0){
+            write(" ");
+            goto cont;
+        }
+        cont:
+        write(hexchar[(buffer[i] & 0xF)]);
+        write(hexchar[((buffer[i] >> 8) & 0xF)]);
+    }
+    writeln();
     return;
 }
