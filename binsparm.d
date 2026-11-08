@@ -1,3 +1,6 @@
+//For arm, I don't really have a need for disassembling ARM instructions. 
+//I'd perfer to just give it to a library.
+
 import std.stdio;
 import std.file;
 void disassemble(File executable, ulong exec_size);
