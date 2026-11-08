@@ -189,7 +189,7 @@ void print_as_hex(ubyte[] buffer, ulong seperation, ulong num){
             goto cont;
         }
         cont:
-        write(hexchar[((buffer[i] >> 8) & 0xF)]);
+        write(hexchar[((buffer[i] >> 4) & 0xF)]);
         write(hexchar[(buffer[i] & 0xF)]);
     }
     return;
