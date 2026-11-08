@@ -21,11 +21,16 @@ char[] hexchar =
     'F'
 ];
 
-string convert_to_hex(ubyte buffer, ulong seperation);
-void standard_file(File file);
+void print_as_hex(ubyte[] buffer, ulong seperation, ulong num);
+void standard_file(File file, ulong file_size);
 
 void main(string[] args){
     //yo I PRAY to the heavens this is gonna work lmao
+    if(args.length < 2){
+        writeln("No arguments given.");
+        return;
+    }
+
     string operation = args[1];
     if(operation == "help"){
         writeln("binsp {operation} {arg1} {arg2}");
@@ -109,7 +114,7 @@ void standard_file(File file, ulong file_size){
     ubyte[32] buffer;
     ulong remainder = file_size % 32;
 
-    //load into buffer 16 bytes at a time
+    //load into buffer 32 bytes at a time
     for(int i = 0; i<(file_size/32); i++){
         try{
             auto num_bytes = file.rawRead(buffer);
@@ -117,6 +122,18 @@ void standard_file(File file, ulong file_size){
                 goto conclusion;
             }
             print_as_hex(num_bytes, 8, num_bytes.length);
+            write(" | ");
+
+            char[] temp = cast(char[])num_bytes;
+            for(int ch = 0; ch<temp.length; ch++){
+                if(temp[ch] >= 0x20 && temp[ch] <= 0x7E){
+                    write(temp[ch]);
+                }
+                else{
+                    write("\uFFFD");
+                }
+            }
+            writeln();
         }
         //The original documentation uses ErrnoException...
         //So I have no idea which one it could be
@@ -125,6 +142,31 @@ void standard_file(File file, ulong file_size){
             writeln("Could not load file into buffer: ", error);
             goto conclusion;
         }
+    }
+
+    //I need to do it one more time
+    try{
+        auto num_bytes = file.rawRead(buffer);
+        if(num_bytes.length == 0){
+            goto conclusion;
+        }
+        print_as_hex(num_bytes, 8, num_bytes.length);
+        write(" | ");
+
+        char[] temp = cast(char[])num_bytes;
+        for(int ch = 0; ch<temp.length; ch++){
+            if(temp[ch] >= 0x20 && temp[ch] <= 0x7E){
+                write(temp[ch]);
+            }
+            else{
+                write("\uFFFD");
+            }
+        }
+        writeln();
+    }
+    catch(Exception error){
+        writeln("Could not load file into buffer: ", error);
+        goto conclusion;
     }
     
     conclusion:
@@ -145,9 +187,8 @@ void print_as_hex(ubyte[] buffer, ulong seperation, ulong num){
             goto cont;
         }
         cont:
-        write(hexchar[(buffer[i] & 0xF)]);
         write(hexchar[((buffer[i] >> 8) & 0xF)]);
+        write(hexchar[(buffer[i] & 0xF)]);
     }
-    writeln();
     return;
 }
