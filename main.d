@@ -114,13 +114,17 @@ void standard_file(File file, ulong file_size){
     ubyte[32] buffer;
     ulong remainder = file_size % 32;
 
+    ulong counter = 0;
+
     //load into buffer 32 bytes at a time
-    for(int i = 0; i<(file_size/32); i++){
-        try{
+    try{
+        for(int i = 0; i<(file_size/32); i++){
             auto num_bytes = file.rawRead(buffer);
             if(num_bytes.length == 0){
                 goto conclusion;
             }
+            writef  ("0x%016X", counter);
+            write(" | ");
             print_as_hex(num_bytes, 8, num_bytes.length);
             write(" | ");
 
@@ -134,14 +138,12 @@ void standard_file(File file, ulong file_size){
                 }
             }
             writeln();
+            counter = counter + 32;
         }
-        //The original documentation uses ErrnoException...
-        //So I have no idea which one it could be
-        //better to just print it out and debug if there is issues
-        catch(Exception error){
-            writeln("Could not load file into buffer: ", error);
-            goto conclusion;
-        }
+    }
+    catch(Exception error){
+        writeln("Could not load file into buffer: ", error);
+        goto conclusion;
     }
 
     //I need to do it one more time
@@ -150,6 +152,8 @@ void standard_file(File file, ulong file_size){
         if(num_bytes.length == 0){
             goto conclusion;
         }
+        writef  ("0x%016X", counter);
+        write(" | ");
         print_as_hex(num_bytes, 8, num_bytes.length);
         write(" | ");
 
@@ -163,6 +167,7 @@ void standard_file(File file, ulong file_size){
             }
         }
         writeln();
+        counter = counter + num_bytes.length;
     }
     catch(Exception error){
         writeln("Could not load file into buffer: ", error);
@@ -174,9 +179,6 @@ void standard_file(File file, ulong file_size){
 }
 
 void print_as_hex(ubyte[] buffer, ulong seperation, ulong num){
-    if (buffer.length % seperation != 0){
-        return;
-    }
     for(int i = 0; i<(num); i++){
         if(i % seperation == 0 && i!= 0){
             write("  ");
