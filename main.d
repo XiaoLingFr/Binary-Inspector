@@ -118,6 +118,9 @@ void standard_file(File file, ulong file_size){
             }
             print_as_hex(num_bytes, 8, num_bytes.length);
         }
+        //The original documentation uses ErrnoException...
+        //So I have no idea which one it could be
+        //better to just print it out and debug if there is issues
         catch(Exception error){
             writeln("Could not load file into buffer: ", error);
             goto conclusion;
