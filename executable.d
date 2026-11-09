@@ -2,7 +2,11 @@ module executable;
 
 import std.stdio;
 import std.file;
+import details;
 
+/*
+    I'm probably going to ignore like every single one of these except for ELFF
+*/
 enum executable_type : uint{
     elff    = 0x00000001, //Linux ELF File
     peff    = 0x00000002, //Portable Executable Format File
@@ -16,16 +20,28 @@ enum endianess : uint{
     big     = 0x00000002,
 };
 
+/*
+    Ill probably use a library for ARM64
+*/
+enum executable_architecture : uint{
+    x86     = 0x00000001,
+    AMD64   = 0x00000002,
+    ARM64   = 0x00000004,
+};
+
 struct details{
     File origin;
     ulong origin_size;
 
     File[] sections;
     ulong[] section_size;
+
     uint file_type;
+
     uint endian;
     uint version_no;
-}
+    bool readable;
+};
 
 void disassemble(File file, ulong file_size){
     details exec_details = {origin: file, origin_size: file_size};
@@ -44,15 +60,3 @@ void disassemble(File file, ulong file_size){
     exit:
     return;
 }
-
-void getdata(details *exec_details){
-    ubyte[] metadata;
-    metadata.length = 16;
-    try{
-        File temp = exec_details.origin;
-        
-    }
-
-    return;
-}
-
