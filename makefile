@@ -1,5 +1,4 @@
 compiler = ldc2
 make:
-	$(compiler) -of=binsp binsp.d 
-	$(compiler) -of=binsparm binsparm.d
+	$(compiler) -v -of=binsp binsp.d executable
 	rm -rf *.o

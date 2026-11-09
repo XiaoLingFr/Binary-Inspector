@@ -1,5 +1,8 @@
+module binsp;
+
 import std.stdio;
 import std.file;
+import executable;
 
 char[] hexchar = 
 [
@@ -94,7 +97,8 @@ void main(string[] args){
             standard_file(file, file_size);
         }
         else if(filetype == "executable"){
-            standard_file(file, file_size);
+            //do smth for now
+            executable.disassemble(file, file_size);
         }
         else{
             writeln("File type not specified.");
