@@ -44,6 +44,7 @@ struct details{
 };
 
 void disassemble(File file, ulong file_size){
+    goto exit;
     details exec_details = {origin: file, origin_size: file_size};
 
     getdata(&exec_details);

@@ -3,6 +3,7 @@ module binsp;
 import std.stdio;
 import std.file;
 import executable;
+import disasmx86;
 
 char[] hexchar = 
 [
@@ -41,6 +42,8 @@ void main(string[] args){
         writeln("binsp about");
         writeln("binsp read <file name> <file type>");
         writeln("File types include: document, executable");
+        writeln("binsp disasm <file name> <architecture>");
+        writeln("Supported architectures: x86");
     }
     else if(operation == "about"){
         writeln("Contributors: \nChengfu Zhao (XiaolingFr)");
@@ -106,6 +109,16 @@ void main(string[] args){
 
         file.close();
     }
+    else if(operation == "disasm"){
+        if(args.length < 4){
+            writeln("Not enough arguments given.");
+        }
+
+        if(file_type == x86){
+            disasmx86.binary_disassemble(file, file_size);
+        }
+    }
+
     else{
         writeln("Operation does not exist.");
     }
@@ -113,6 +126,11 @@ void main(string[] args){
     exit:
     return;
 }
+
+/*
+    My shit is so fried I cant tell the end of functions.
+    YO BIG ZHAO THE MAIN FUNCTION ENDS HERE
+*/
 
 void standard_file(File file, ulong file_size){
     ubyte[32] buffer;
