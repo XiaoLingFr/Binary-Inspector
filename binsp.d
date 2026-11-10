@@ -3,7 +3,7 @@ module binsp;
 import std.stdio;
 import std.file;
 import executable;
-import disasmx86;
+import disasm8086;
 
 char[] hexchar = 
 [
@@ -114,8 +114,8 @@ void main(string[] args){
             writeln("Not enough arguments given.");
         }
 
-        if(file_type == x86){
-            disasmx86.binary_disassemble(file, file_size);
+        if(file_type == "bin-8086"){
+            disasmx8086.binary_disassemble(file, file_size);
         }
     }
 
