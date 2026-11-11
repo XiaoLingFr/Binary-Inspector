@@ -14,7 +14,7 @@ import std.stdio;
 enum prefix : ubyte{
     repe            = 0xF3, //NOTE: ALSO CONTAINS the following instructions: rep, repz
     repne           = 0xF2,  //NOTE: ALSO CONTAINS the following instructions: repnz
-    buslock         = 0xF0
+    lock            = 0xF0
 
     //for now I'll exclude floating points.
     //Note: if there is any code after this, its probably prefixes pertaining to the 8087 FPU coprocessor
@@ -96,16 +96,11 @@ enum SOP : ubyte{
     SOPDS           = 0x3E
 };
 
-/*
-    Here are the 256 op-codes lmao
-    I have no fucking clue why I chose to do it this way
-*/
-
-ubyte[] fetch(File file, ulong max_bytes){
-    ubyte[] temp = new ubyte[max_bytes];
-    temp.length = (file.rawRead(temp)).length;
-    return temp;
-}
+//struct for ts
+struct interpreter_information{
+    string  code;
+    ulong   num_bytes;
+};
 
 void binary_disassemble(File file, ulong file_size){
     //fuck it we ball
@@ -120,24 +115,47 @@ void binary_disassemble(File file, ulong file_size){
     }
 
     ulong counter = 0;
-    //dissassembling loop;
-    ubyte[15] instruction = 0;
-    int instruction_size = 0;
 
-    string instruction;
-
+    //holy fucking shit I dont know how I did it
     while(counter < file_size){
-        bool instruction_end = false;
-        while(!instruction_end){
+        ubyte[] temp_slice;
+        try{
+            temp_slice = section_data[counter .. counter + 15];
         }
-        counter = counter + instruction_size;
+        catch(ArraySliceError ASE){
+            temp_slice = section_data[counter .. $];
+        }
+
+        interpreter_information* info = interpreter_information(temp_slice);
+
+        writef("0x%04X", counter);
+        write(" | ");
+        for(int i = 0; i < info.num_bytes; i++){
+            writef("0x%02X", section_data[counter + i]);
+        }
+        for(int i = 0; i < 15 - section.num_bytes; i++){
+            write(" ");
+            write(" ");
+        }
+        write(" | ")
+        write(info.code);
+
+        counter = counter + section.num_bytes;
     }
 
     exit:
     return;
 }
 
-// Source: http://www.mlsite.net/8086/#addr_G
-string fetch_instruction(ubyte instruction){
-    
+interpreter_information* interpreter(ubyte[] opcodes){
+    interpreter_information* temp = new interpreter_information;
+    //does logic
+    string instruction;
+    for(int b = 0; b<opcodes.length; b++){
+        
+    }
+
+    return temp;
 }
+
+// Source: http://www.mlsite.net/8086/#addr_G
