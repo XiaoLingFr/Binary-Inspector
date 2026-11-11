@@ -243,12 +243,12 @@ interpreter_information* interpreter(ubyte[] opcodes){
         typically in this order:
         [prefixes] -> [instruction | 1 Byte] -> [ModR/M | 1 byte] -> [displacement | 1 or 2 Bytes] -> [Immediate -> | 1 or 2 bytes]
 
-        So what I'm gonna do is for each insturction, im going to update thse guys lmao
+        So what I'm gonna do is for each instruction, im going to update thse guys lmao
 
         the LONGEST instruction known to man MIGHT be this instruction
         mov word [bx + si + 0xAA55], 0xA432
 
-        note: i need to put a 
+        note: after this I need more logic. But for now this is pretty good.
     */
 
     switch(opcode){
@@ -279,22 +279,22 @@ interpreter_information* interpreter(ubyte[] opcodes){
             break;
 
         case 0x08:
-            insturction = instruction ~ "or ";
+            instruction = instruction ~ "or ";
             break;
         case 0x09:
-            insturction = instruction ~ "or ";
+            instruction = instruction ~ "or ";
             break;
         case 0x0A:
-            insturction = instruction ~ "or ";
+            instruction = instruction ~ "or ";
             break;
         case 0x0B:
-            insturction = instruction ~ "or ";
+            instruction = instruction ~ "or ";
             break;
         case 0x0C:
-            insturction = instruction ~ "or ";
+            instruction = instruction ~ "or ";
             break;
         case 0x0D:
-            insturction = instruction ~ "or ";
+            instruction = instruction ~ "or ";
             break;
 
         case 0x0E:
@@ -453,7 +453,7 @@ interpreter_information* interpreter(ubyte[] opcodes){
         case 0x3E:
             break;
         case 0x3F:
-            insturction = instruction ~ "aas";
+            instruction = instruction ~ "aas";
             break;
 
         case 0x40:
@@ -505,8 +505,213 @@ interpreter_information* interpreter(ubyte[] opcodes){
         case 0x4F:
             instruction = instruction ~ "dec di";
             break;
-    
         
+        case 0x50:
+            instruction = instruction ~ "push ax";
+            break;
+        case 0x51:
+            instruction = instruction ~ "push cx";
+            break;
+        case 0x52:
+            instruction = instruction ~ "push dx";
+            break;
+        case 0x53:
+            instruction = instruction ~ "push bx";
+            break;
+        case 0x54:
+            instruction = instruction ~ "push sp";
+            break;
+        case 0x55:
+            instruction = instruction ~ "push bp";
+            break;
+        case 0x56:
+            instruction = instruction ~ "push si";
+            break;
+        case 0x57:
+            instruction = instruction ~ "push di";
+            break;
+
+        case 0x58:
+            instruction = instruction ~ "pop ax";
+            break;
+        case 0x59:
+            instruction = instruction ~ "pop cx";
+            break;
+        case 0x5A:
+            instruction = instruction ~ "pop dx";
+            break;
+        case 0x5B:
+            instruction = instruction ~ "pop bx";
+            break;
+        case 0x5C:
+            instruction = instruction ~ "pop sp";
+            break;
+        case 0x5D:
+            instruction = instruction ~ "pop bp";
+            break;
+        case 0x5E:
+            instruction = instruction ~ "pop si";
+            break;
+        case 0x5F:
+            instruction = instruction ~ "pop di";
+            break;
+    
+        //thank the intel engineers that 0x60 ~ 0x6F is invalid lmao
+
+        case 0x70:
+            instruction = instruction ~ "jo ";
+            break;
+        case 0x71:
+            instruction = instruction ~ "jno ";
+            break;
+        case 0x72:
+            instruction = instruction ~ "jb ";
+            break;
+        case 0x73:
+            instruction = instruction ~ "jnb ";
+            break;
+        case 0x74:
+            instruction = instruction ~ "jz ";
+            break;
+        case 0x75:
+            instruction = instruction ~ "jnz ";
+            break;
+        case 0x76:
+            instruction = instruction ~ "jbe ";
+            break;
+        case 0x77:
+            instruction = instruction ~ "ja ";
+            break;
+
+        case 0x78:
+            instruction = instruction ~ "js ";
+            break;
+        case 0x79:
+            instruction = instruction ~ "jns ";
+            break;
+        case 0x7A:
+            instruction = instruction ~ "jpe ";
+            break;
+        case 0x7B:
+            instruction = instruction ~ "jpo ";
+            break;
+        case 0x7C:
+            instruction = instruction ~ "jl ";
+            break;
+        case 0x7D:
+            instruction = instruction ~ "jge ";
+            break;
+        case 0x7E:
+            instruction = instruction ~ "jle ";
+            break;
+        case 0x7F:
+            instruction = instruction ~ "jg ";
+            break;
+
+        //all the pain and suffering from dealing with 0x60 has been transfered to 0x80
+        case 0x80:
+            break;
+        case 0x81:
+            break;
+        case 0x82:
+            break;
+        case 0x83:
+            break;
+
+        case 0x84:
+            instruction = instruction ~ "test ";
+            break;
+        case 0x85:
+            instruction = instruction ~ "test ";
+            break;
+
+        case 0x86:
+            instruction = instruction ~ "xchg ";
+            break;
+        case 0x87:
+            instruction = instruction ~ "xchg ";
+            break;
+
+        case 0x88:
+            instruction = instruction ~ "mov ";
+            break;
+        case 0x89:
+            instruction = instruction ~ "mov ";
+            break;
+        case 0x8A:
+            instruction = instruction ~ "mov ";
+            break;
+        case 0x8B:
+            instruction = instruction ~ "mov ";
+            break;
+        case 0x8C:
+            instruction = instruction ~ "mov ";
+            break;
+
+        case 0x8D:
+            instruction = instruction ~ "lea ";
+            break;
+
+        case 0x8E:
+            instruction = instruction ~ "mov ";
+            break;
+        case 0x8F:
+            instruction = instruction ~ "pop ";
+            break;
+        
+        //0x90~0x9F is genuinely like the reward after witnessing the WORST design decision of ALL time
+        case 0x90:
+            instruction = instruction ~ "nop";
+            break;
+        
+        case 0x91:
+            instruction = instruction ~ "xchg CX, AX";
+            break;
+        case 0x92:
+            instruction = instruction ~ "xchg DX, AX";
+            break;
+        case 0x93:
+            instruction = instruction ~ "xchg BX, AX";
+            break;
+        case 0x94:
+            instruction = instruction ~ "xchg SP, AX";
+            break;
+        case 0x95:
+            instruction = instruction ~ "xchg BP, AX";
+            break;
+        case 0x96:
+            instruction = instruction ~ "xchg SI, AX";
+            break;
+        case 0x97:
+            instruction = instruction ~ "xchg DI, AX";
+            break;
+
+        case 0x98:
+            instruction = instruction ~ "cbw";
+            break
+        case 0x99:
+            instruction = instruction ~ "cwd";
+            break;
+        
+        case 0x9A:
+            instruction = instruction ~ "call ";
+            break;
+
+        case 0x9B:
+            instruction = instruction ~ "wait";
+            break;
+        case 0x9C:
+            instruction = instruction ~ "pushf";
+            break;
+        case 0x9D:
+            instruction = instruction ~ "popf";
+            break;
+        case 0x9E:
+            instruction = instruction ~ "sahf";
+            break;
+        case 0x9F:
+            instruction = instruction ~ "LAHF";
+            break;
     }   
 }
 
