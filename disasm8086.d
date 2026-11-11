@@ -96,6 +96,10 @@ enum SOP : ubyte{
     SOPDS           = 0x3E
 };
 
+/*
+    Here are the 256 op-codes lmao
+    I have no fucking clue why I chose to do it this way
+*/
 
 ubyte[] fetch(File file, ulong max_bytes){
     ubyte[] temp = new ubyte[max_bytes];
@@ -120,15 +124,20 @@ void binary_disassemble(File file, ulong file_size){
     ubyte[15] instruction = 0;
     int instruction_size = 0;
 
+    string instruction;
 
     while(counter < file_size){
         bool instruction_end = false;
         while(!instruction_end){
-
         }
         counter = counter + instruction_size;
     }
 
     exit:
     return;
+}
+
+// Source: http://www.mlsite.net/8086/#addr_G
+string fetch_instruction(ubyte instruction){
+    
 }
