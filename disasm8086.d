@@ -13,9 +13,16 @@ import std.conv;
 */
 enum direction : int{
     from = 0,
-    to
+    to = 1
 };
 
+/*
+    Width of operands in bytes,
+*/
+enum width : {
+    small  = 1,
+    large = 2
+};
 
 /*
     These are intel instruction prefixes before
@@ -244,7 +251,8 @@ interpreter_information* interpreter(ubyte[] opcodes){
     int displacement = 0;
     int immediate = 0;
 
-    int direction;
+    int dtn;
+    int wdth;
     ubyte opcode = opcodes[ptr];
 
     string[2] operands; //follows a strict dest, source 
@@ -267,18 +275,26 @@ interpreter_information* interpreter(ubyte[] opcodes){
         case 0x00:
             instruction ~= "add ";
             modrm_byte = 1;
+            wdth = width.small;
+            dtn = direction.from;
             break;
         case 0x01:
             instruction ~= "add ";
             modrm_byte = 1;
+            wdth = width.large;
+            dtn = direction.from;
             break;
         case 0x02:
             instruction ~= "add ";
             modrm_byte = 1;
+            wdth = width.small;
+            dtn = direction.to;
             break;
         case 0x03:
             instruction ~= "add ";
             modrm_byte = 1;
+            wdth = width.large;
+            dtn = direction.to;
             break;
         case 0x04:
             instruction ~= "add al, 0x";
@@ -301,18 +317,26 @@ interpreter_information* interpreter(ubyte[] opcodes){
         case 0x08:
             instruction ~= "or ";
             modrm_byte = 1;
+            wdth = width.small;
+            dtn = direction.from;
             break;
         case 0x09:
             instruction ~= "or ";
             modrm_byte = 1;
+            wdth = width.large;
+            dtn = direction.from;
             break;
         case 0x0A:
             instruction ~= "or ";
             modrm_byte = 1;
+            wdth = width.small;
+            dtn = direction.to;
             break;
         case 0x0B:
             instruction ~= "or ";
             modrm_byte = 1;
+            wdth = width.large;
+            dtn = direction.to;
             break;
         case 0x0C:
             instruction ~= "or al, 0x";
@@ -335,18 +359,26 @@ interpreter_information* interpreter(ubyte[] opcodes){
         case 0x10:
             instruction ~= "adc ";
             modrm_byte = 1;
+            wdth = width.small;
+            dtn = direction.from;
             break;
         case 0x11:
             instruction ~= "adc ";
             modrm_byte = 1;
+            wdth = width.large;
+            dtn = direction.from;
             break;
         case 0x12:
             instruction ~= "adc ";
             modrm_byte = 1;
+            wdth = width.small;
+            dtn = direction.to;
             break;
         case 0x13:
             instruction ~= "adc ";
             modrm_byte = 1;
+            wdth = width.large;
+            dtn = direction.to;
             break;
         case 0x14:
             instruction ~= "adc al,  0x";
@@ -369,18 +401,26 @@ interpreter_information* interpreter(ubyte[] opcodes){
         case 0x18:
             instruction ~= "sbb ";
             modrm_byte = 1;
+            wdth = width.small;
+            dtn = direction.from;
             break;
         case 0x19:
             instruction ~= "sbb ";
             modrm_byte = 1;
+            wdth = width.large;
+            dtn = direction.from;
             break;
         case 0x1A:
             instruction ~= "sbb ";
             modrm_byte = 1;
+            wdth = width.small;
+            dtn = direction.to;
             break;
         case 0x1B:
             instruction ~= "sbb ";
+            wdth = width.large;
             modrm_byte = 1;
+            dtn = direction.to;
             break;
         case 0x1C:
             instruction ~= "sbb ";
@@ -402,19 +442,27 @@ interpreter_information* interpreter(ubyte[] opcodes){
 
         case 0x20:
             instruction ~= "and ";
+            wdth = width.small;
             modrm_byte = 1;
+            dtn = direction.from;
             break;
         case 0x21:
             instruction ~= "and ";
+            wdth = width.large;
             modrm_byte = 1;
+            dtn = direction.from;
             break;
         case 0x22:
             instruction ~= "and ";
+            wdth = width.small;
             modrm_byte = 1;
+            dtn = direction.to;
             break;
         case 0x23:
             instruction ~= "and ";
+            wdth = width.large;
             modrm_byte = 1;
+            dtn = direction.to;
             break;
         case 0x24:
             instruction ~= "and al, 0x";
@@ -435,19 +483,27 @@ interpreter_information* interpreter(ubyte[] opcodes){
         
         case 0x28:
             instruction ~= "sub ";
+            wdth = width.small;
             modrm_byte = 1;
+            dtn = direction.from;
             break;
         case 0x29:
             instruction ~= "sub ";
+            wdth = width.large;
             modrm_byte = 1;
+            dtn = direction.from;
             break;
         case 0x2A:
             instruction ~= "sub ";
+            wdth = width.small;
             modrm_byte = 1;
+            dtn = direction.to;
             break;
         case 0x2B:
             instruction ~= "sub ";
+            wdth = width.large;
             modrm_byte = 1;
+            dtn = direction.to;
             break;
         case 0x2C:
             instruction ~= "sub al, 0x";
@@ -468,19 +524,27 @@ interpreter_information* interpreter(ubyte[] opcodes){
 
         case 0x30:
             instruction ~= "xor";
+            wdth = width.small;
             modrm_byte = 1;
+            dtn = direction.from;
             break;
         case 0x31:
             instruction ~= "xor ";
+            wdth = width.large;
             modrm_byte = 1;
+            dtn = direction.from;
             break;
         case 0x32:
             instruction ~= "xor ";
+            wdth = width.small;
             modrm_byte = 1;
+            dtn = direction.to;
             break;
         case 0x33:
             instruction ~= "xor ";
+            wdth = width.large;
             modrm_byte = 1;
+            dtn = direction.to;
             break;
         case 0x34:
             instruction ~= "xor al, 0x";
@@ -501,19 +565,27 @@ interpreter_information* interpreter(ubyte[] opcodes){
 
         case 0x38:
             instruction ~= "cmp ";
+            wdth = width.small;
             modrm_byte = 1;
+            dtn = direction.from;
             break;
         case 0x39:
             instruction ~= "cmp ";
+            wdth = width.large;
             modrm_byte = 1;
+            dtn = direction.from;
             break;
         case 0x3A:
             instruction ~= "cmp ";
+            wdth = width.small;
             modrm_byte = 1;
+            dtn = direction.to;
             break;
         case 0x3B:
             instruction ~= "cmp ";
+            wdth = width.large;
             modrm_byte = 1;
+            dtn = direction.to;
             break;
         case 0x3C:
             instruction ~= "cmp al, 0x";
@@ -729,54 +801,78 @@ interpreter_information* interpreter(ubyte[] opcodes){
         case 0x84:
             instruction ~= "test ";
             modrm_byte = 1;
+            wdth = width.small;
+            dtn = direction.from;
             break;
         case 0x85:
             instruction ~= "test ";
             modrm_byte = 1;
+            wdth = width.large;
+            dtn = direction.to;
             break;
 
         case 0x86:
             instruction ~= "xchg ";
             modrm_byte = 1;
+            wdth = width.small;
+            dtn = direction.to;
             break;
         case 0x87:
             instruction ~= "xchg ";
             modrm_byte = 1;
+            wdth = width.large;
+            dtn = direction.to;
             break;
 
         case 0x88:
             instruction ~= "mov ";
             modrm_byte = 1;
+            wdth = width.small;
+            dtn = direction.from;
             break;
         case 0x89:
             instruction ~= "mov ";
+            wdth = width.large;
             modrm_byte = 1;
+            dtn = direction.from;
             break;
         case 0x8A:
             instruction ~= "mov ";
+            wdth = width.small;
             modrm_byte = 1;
+            dtn = direction.to;
             break;
         case 0x8B:
             instruction ~= "mov ";
+            wdth = width.large;
             modrm_byte = 1;
+            dtn = direction.to;
             break;
         case 0x8C:
             instruction ~= "mov ";
+            wdth = width.large;
             modrm_byte = 1;
+            dtn = direction.from;
             break;
 
         case 0x8D:
             instruction ~= "lea ";
             modrm_byte = 1;
+            wdth = width.large;
+            dtn = direction.to;
             break;
 
         case 0x8E:
             instruction ~= "mov ";
             modrm_byte = 1;
+            wdth = width.large;
+            dtn = direction.to;
             break;
         case 0x8F:
             instruction ~= "pop ";
             modrm_byte = 1;
+            wdth = width.large;
+            dtn = direction.to;
             break;
         
         //0x90~0x9F is genuinely like the reward after witnessing the WORST design decision of ALL time
@@ -1227,9 +1323,302 @@ interpreter_information* interpreter(ubyte[] opcodes){
             break;  
     }     
     
+    //to the next byte
     ptr++;
 
+    /*
+        at this point in time, a few values are known:
+        sop_value
+        SOP_found
+        opcode
+        modrm_byte
+        dtn (direction)
+        wdth (width)
+        now we need to actually read the modr/m byte
+    */
+    if(modrm_byte == 1){
+        ubyte val = opcodes[ptr];
+        string reg_arg;
+        string rm_arg;
 
+        //strict reg values:
+        if(wdth == 2){
+            switch(val & modrm.bitmask2){
+                case modrm.regAX:
+                    reg_arg = "ax";
+                    break;
+                case modrm.regCX:
+                    reg_arg = "cx";
+                    break;
+                case modrm.regDX:
+                    reg_arg = "dx";
+                    break;
+                case modrm.regBX:
+                    reg_arg = "bx";
+                    break;
+                case modrm.regSP:
+                    reg_arg = "sp";
+                    break;
+                case modrm.regBP:
+                    reg_arg = "bp";
+                    break;
+                case modrm.regSI:
+                    reg_arg = "si";
+                    break;
+                case modrm.regDI:
+                    reg_arg = "di";
+                    break;
+            }
+        }
+        else{
+            switch(val & modrm.bitmask2){
+                case modrm.regAL:
+                    reg_arg = "al";
+                    break;
+                case modrm.regCL:
+                    reg_arg = "cl";
+                    break;
+                case modrm.regDL:
+                    reg_arg = "dl";
+                    break;
+                case modrm.regBL:
+                    reg_arg = "bl";
+                    break;
+                case modrm.regAH:
+                    reg_arg = "ah";
+                    break;
+                case modrm.regCH:
+                    reg_arg = "ch";
+                    break;
+                case modrm.regDH:
+                    reg_arg = "dh";
+                    break;
+                case modrm.regBH:
+                    reg_arg = "bh";
+                    break;
+            }
+        }
+
+        if(val & modrm.bitmask1 == modrm.nodisplacement){
+            //this is the exception I think
+            if(val & modrm.bitmask3 == modrm.BPonly){
+                rm_arg = "[0x" ~ [opcodes[ptr+2],opcodes[ptr+1]].toHexString() ~ "]"
+                ptr = ptr + 2;
+            }
+            else{
+                //check segment override
+                if(SOP_found){
+                    switch(sop_value){
+                        case SOP.SOPES:
+                            rm_arg = "[ES:";
+                            break;
+                        case SOP.SOPCS:
+                            rm_arg = "[CS:";
+                            break;
+                        case SOP.SOPSS:
+                            rm_arg = "[SS:";
+                            break;
+                        case SOP.SOPDS:
+                            rm_arg = "[DS:"
+                    }
+                }
+                else{
+                    rm_arg = "["
+                }
+                switch(val & modrm.bitmask3){
+                    case modrm.BXSI:
+                        rm_arg = "bx + si";
+                        break;
+                    case modrm.BXDI:
+                        rm_arg = "bx + di";
+                        break;
+                    case modrm.BPSI:
+                        rm_arg = "bp + si";
+                        break;
+                    case modrm.BPDI:
+                        rm_arg = "bp + di";
+                        break;
+                    case modrm.SIonly:
+                        rm_arg = "si";
+                        break;
+                    case modrm.DIonly:
+                        rm_arg = "di";
+                        break;
+                    case modrm.BPonly:
+                        rm_arg = "bp";
+                        break;
+                    case modrm.BXonly:
+                        rm_arg = "BX";
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+        else if(val & modrm.bitmaks1 == modrm.registermode){
+            if(wdth == 2){
+                switch((val & modrm.bitmask2) << 3){
+                    case modrm.regAX:
+                        rm_arg = "ax";
+                        break;
+                    case modrm.regCX:
+                        rm_arg = "cx";
+                        break;
+                    case modrm.regDX:
+                        rm_arg = "dx";
+                        break;
+                    case modrm.regBX:
+                        rm_arg = "bx";
+                        break;
+                    case modrm.regSP:
+                        rm_arg = "sp";
+                        break;
+                    case modrm.regBP:
+                        rm_arg = "bp";
+                        break;
+                    case modrm.regSI:
+                        rm_arg = "si";
+                        break;
+                    case modrm.regDI:
+                        rm_arg = "di";
+                        break;
+                }
+            }
+            else{
+                switch((val & modrm.bitmask2) << 3){
+                    case modrm.regAL:
+                        rm_arg = "al";
+                        break;
+                    case modrm.regCL:
+                        rm_arg = "cl";
+                        break;
+                    case modrm.regDL:
+                        rm_arg = "dl";
+                        break;
+                    case modrm.regBL:
+                        rm_arg = "bl";
+                        break;
+                    case modrm.regAH:
+                        rm_arg = "ah";
+                        break;
+                    case modrm.regCH:
+                        rm_arg = "ch";
+                        break;
+                    case modrm.regDH:
+                        rm_arg = "dh";
+                        break;
+                    case modrm.regBH:
+                        rm_arg = "bh";
+                        break;
+                }
+            }
+        }
+        else if(val & modrm.bitmaks1 == modrm.byteaddressing){
+            if(SOP_found){
+                switch(sop_value){
+                    case SOP.SOPES:
+                        rm_arg = "[ES:";
+                        break;
+                    case SOP.SOPCS:
+                        rm_arg = "[CS:";
+                        break;
+                    case SOP.SOPSS:
+                        rm_arg = "[SS:";
+                        break;
+                    case SOP.SOPDS:
+                        rm_arg = "[DS:"
+                }
+            }
+            else{
+                rm_arg = "["
+            }
+            switch(val & modrm.bitmask3){
+                case modrm.BXSI:
+                    rm_arg = "[bx + si + 0x";
+                    break;
+                case modrm.BXDI:
+                    rm_arg = "[bx + di + 0x";
+                    break;
+                case modrm.BPSI:
+                    rm_arg = "[bp + si + 0x";
+                    break;
+                case modrm.BPDI:
+                    rm_arg = "[bp + di + 0x";
+                    break;
+                case modrm.SIonly:
+                    rm_arg = "[si + 0x";
+                    break;
+                case modrm.DIonly:
+                    rm_arg = "[di + 0x";
+                    break;
+                case modrm.BPonly:
+                    rm_arg = "[bp + 0x";
+                    break;
+                case modrm.BXonly:
+                    rm_arg = "[BX + 0x";
+                    break;
+                default:
+                    break;
+            }
+            rm_arg ~= [opcode[ptr+1]].toHexString();
+            rm_arg ~= "]";
+            ptr++;
+        }
+        else if(val & modrm.bitmaks1 == modrm.maxaddressing){
+            if(SOP_found){
+                switch(sop_value){
+                    case SOP.SOPES:
+                        rm_arg = "[ES:";
+                        break;
+                    case SOP.SOPCS:
+                        rm_arg = "[CS:";
+                        break;
+                    case SOP.SOPSS:
+                        rm_arg = "[SS:";
+                        break;
+                    case SOP.SOPDS:
+                        rm_arg = "[DS:"
+                }
+            }
+            else{
+                rm_arg = "["
+            }
+
+            switch(val & modrm.bitmask3){
+                case modrm.BXSI:
+                    rm_arg = "[bx + si + 0x";
+                    break;
+                case modrm.BXDI:
+                    rm_arg = "[bx + di + 0x";
+                    break;
+                case modrm.BPSI:
+                    rm_arg = "[bp + si + 0x";
+                    break;
+                case modrm.BPDI:
+                    rm_arg = "[bp + di + 0x";
+                    break;
+                case modrm.SIonly:
+                    rm_arg = "[si + 0x";
+                    break;
+                case modrm.DIonly:
+                    rm_arg = "[di + 0x";
+                    break;
+                case modrm.BPonly:
+                    rm_arg = "[bp + 0x";
+                    break;
+                case modrm.BXonly:
+                    rm_arg = "[BX + 0x";
+                    break;
+                default:
+                    break;
+            }
+            rm_arg ~= [opcode[ptr + 2], opcode[ptr+1]].toHexString();
+            rm_arg ~= "]";
+            ptr++;
+        }
+    }
+
+    //put everything together
 }
 
 // Source: http://www.mlsite.net/8086/#addr_G
