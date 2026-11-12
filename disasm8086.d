@@ -163,6 +163,7 @@ interpreter_information* interpreter(ubyte[] opcodes){
     //we need two things: the entire translated string and a flag to indicate that the instruction has halted
     string instruction;
     bool SOP_found;
+    ubyte sop_value;
     ulong amount = 0;
 
     ulong ptr = 0;
@@ -214,12 +215,22 @@ interpreter_information* interpreter(ubyte[] opcodes){
     //check for Segment override prefix
     switch(opcodes[ptr]){
         case SOP.SOPES:
-            goto case;
+            sop_value = SOP.SOPES;
+            SOP_found = true;
+            ptr++;
+            break;
         case SOP.SOPCS:
-            goto case;
+            sop_value = SOP.SOPCS;
+            SOP_found = true;
+            ptr++;
+            break;
         case SOP.SOPDS:
-            goto case;
+            sop_value = SOP.SOPDS;
+            SOP_found = true;
+            ptr++;
+            break;
         case SOP.SOPSS:
+            sop_value = SOP.SOPSS;
             SOP_found = true;
             ptr++;
             break;
@@ -255,21 +266,29 @@ interpreter_information* interpreter(ubyte[] opcodes){
     switch(opcode){
         case 0x00:
             instruction ~= "add ";
+            modrm_byte = 1;
             break;
         case 0x01:
             instruction ~= "add ";
+            modrm_byte = 1;
             break;
         case 0x02:
             instruction ~= "add ";
+            modrm_byte = 1;
             break;
         case 0x03:
             instruction ~= "add ";
+            modrm_byte = 1;
             break;
         case 0x04:
-            instruction ~= "add ";
+            instruction ~= "add al, 0x";
+            instruction ~= [opcodes[ptr + 1]].toHexString();
+            ptr = ptr + 1;
             break;
         case 0x05:
-            instruction ~= "add ";
+            instruction ~= "add ax, 0x";
+            instruction ~= [opcodes[ptr + 2],opcodes[ptr + 1]].toHexString();
+            ptr = ptr + 2;
             break;
         
         case 0x06:
@@ -281,21 +300,29 @@ interpreter_information* interpreter(ubyte[] opcodes){
 
         case 0x08:
             instruction ~= "or ";
+            modrm_byte = 1;
             break;
         case 0x09:
             instruction ~= "or ";
+            modrm_byte = 1;
             break;
         case 0x0A:
             instruction ~= "or ";
+            modrm_byte = 1;
             break;
         case 0x0B:
             instruction ~= "or ";
+            modrm_byte = 1;
             break;
         case 0x0C:
-            instruction ~= "or ";
+            instruction ~= "or al, 0x";
+            instruction ~= [opcodes[ptr + 1]].toHexString();
+            ptr = ptr + 1;
             break;
         case 0x0D:
-            instruction ~= "or ";
+            instruction ~= "or ax, 0x";
+            instruction ~= [opcodes[ptr + 2],opcodes[ptr + 1]].toHexString();
+            ptr = ptr + 2;
             break;
 
         case 0x0E:
@@ -307,21 +334,29 @@ interpreter_information* interpreter(ubyte[] opcodes){
 
         case 0x10:
             instruction ~= "adc ";
+            modrm_byte = 1;
             break;
         case 0x11:
             instruction ~= "adc ";
+            modrm_byte = 1;
             break;
         case 0x12:
             instruction ~= "adc ";
+            modrm_byte = 1;
             break;
         case 0x13:
             instruction ~= "adc ";
+            modrm_byte = 1;
             break;
         case 0x14:
-            instruction ~= "adc ";
+            instruction ~= "adc al,  0x";
+            instruction ~= [opcodes[ptr + 1]].toHexString();
+            ptr = ptr + 1;
             break;
         case 0x15:
-            instruction ~= "adc ";
+            instruction ~= "adc ax, 0x";
+            instruction ~= [opcodes[ptr + 2],opcodes[ptr + 1]].toHexString();
+            ptr = ptr + 2;
             break;
 
         case 0x16:
@@ -333,21 +368,29 @@ interpreter_information* interpreter(ubyte[] opcodes){
         
         case 0x18:
             instruction ~= "sbb ";
+            modrm_byte = 1;
             break;
         case 0x19:
             instruction ~= "sbb ";
+            modrm_byte = 1;
             break;
         case 0x1A:
             instruction ~= "sbb ";
+            modrm_byte = 1;
             break;
         case 0x1B:
             instruction ~= "sbb ";
+            modrm_byte = 1;
             break;
         case 0x1C:
             instruction ~= "sbb ";
+            instruction ~= [opcodes[ptr + 1]].toHexString();
+            ptr = ptr + 1
             break;
         case 0x1D:
-            instruction ~= "sbb ";
+            instruction ~= "sbb ax, 0x";
+            instruction ~= [opcodes[ptr + 2],opcodes[ptr + 1]].toHexString();
+            ptr = ptr + 2;
             break;
         
         case 0x1E:
@@ -359,21 +402,29 @@ interpreter_information* interpreter(ubyte[] opcodes){
 
         case 0x20:
             instruction ~= "and ";
+            modrm_byte = 1;
             break;
         case 0x21:
             instruction ~= "and ";
+            modrm_byte = 1;
             break;
         case 0x22:
             instruction ~= "and ";
+            modrm_byte = 1;
             break;
         case 0x23:
             instruction ~= "and ";
+            modrm_byte = 1;
             break;
         case 0x24:
-            instruction ~= "and ";
+            instruction ~= "and al, 0x";
+            instruction ~= [opcodes[ptr + 1]].toHexString();
+            ptr = ptr + 1;
             break;
         case 0x25:
-            instruction ~= "and ";
+            instruction ~= "and ax, ";
+            instruction ~= [opcodes[ptr + 2],opcodes[ptr + 1]].toHexString();
+            ptr = ptr + 2;
             break;
         
         case 0x26:
@@ -384,21 +435,29 @@ interpreter_information* interpreter(ubyte[] opcodes){
         
         case 0x28:
             instruction ~= "sub ";
+            modrm_byte = 1;
             break;
         case 0x29:
             instruction ~= "sub ";
+            modrm_byte = 1;
             break;
         case 0x2A:
             instruction ~= "sub ";
+            modrm_byte = 1;
             break;
         case 0x2B:
             instruction ~= "sub ";
+            modrm_byte = 1;
             break;
         case 0x2C:
-            instruction ~= "sub ";
+            instruction ~= "sub al, 0x";
+            instruction ~= [opcodes[ptr + 1]].toHexString();
+            ptr++;
             break;
         case 0x2D:
-            instruction ~= "sub ";
+            instruction ~= "sub ax, 0x";
+            instruction ~= [opcodes[ptr + 2],opcodes[ptr + 1]].toHexString();
+            ptr = ptr + 2;
             break;
 
         case 0x2E:
@@ -409,21 +468,29 @@ interpreter_information* interpreter(ubyte[] opcodes){
 
         case 0x30:
             instruction ~= "xor";
+            modrm_byte = 1;
             break;
         case 0x31:
             instruction ~= "xor ";
+            modrm_byte = 1;
             break;
         case 0x32:
             instruction ~= "xor ";
+            modrm_byte = 1;
             break;
         case 0x33:
             instruction ~= "xor ";
+            modrm_byte = 1;
             break;
         case 0x34:
-            instruction ~= "xor ";
+            instruction ~= "xor al, 0x";
+            instruction ~= [opcodes[ptr + 1]].toHexString();
+            ptr++;
             break;
         case 0x35:
             instruction ~= "xor ";
+            instruction ~= [opcodes[ptr + 2],opcodes[ptr + 1]].toHexString();
+            ptr = ptr + 2;
             break;
 
         case 0x36:
@@ -434,21 +501,29 @@ interpreter_information* interpreter(ubyte[] opcodes){
 
         case 0x38:
             instruction ~= "cmp ";
+            modrm_byte = 1;
             break;
         case 0x39:
             instruction ~= "cmp ";
+            modrm_byte = 1;
             break;
         case 0x3A:
             instruction ~= "cmp ";
+            modrm_byte = 1;
             break;
         case 0x3B:
             instruction ~= "cmp ";
+            modrm_byte = 1;
             break;
         case 0x3C:
-            instruction ~= "cmp ";
+            instruction ~= "cmp al, 0x";
+            instruction ~= [opcodes[ptr + 1]].toHexString();
+            ptr++;
             break;
         case 0x3D:
-            instruction ~= "cmp ";
+            instruction ~= "cmp ax, 0x";
+            instruction ~= [opcodes[ptr + 2],opcodes[ptr + 1]].toHexString();
+            ptr = ptr + 2;
             break;
 
         case 0x3E:
@@ -560,53 +635,85 @@ interpreter_information* interpreter(ubyte[] opcodes){
         //thank the intel engineers that 0x60 ~ 0x6F is invalid lmao
 
         case 0x70:
-            instruction ~= "jo ";
+            instruction ~= "jo $ + 0x";
+            instruction ~= [opcodes[ptr + 1]].toHexString();
+            ptr++;
             break;
         case 0x71:
-            instruction ~= "jno ";
+            instruction ~= "jno $ + 0x";
+            instruction ~= [opcodes[ptr + 1]].toHexString();
+            ptr++
             break;
         case 0x72:
-            instruction ~= "jb ";
+            instruction ~= "jb $ + 0x";
+            instruction ~= [opcodes[ptr + 1]].toHexString();
+            ptr++;
             break;
         case 0x73:
-            instruction ~= "jnb ";
+            instruction ~= "jnb $ + 0x";
+            instruction ~= [opcodes[ptr + 1]].toHexString();
+            ptr++;
             break;
         case 0x74:
-            instruction ~= "jz ";
+            instruction ~= "jz $ + 0x";
+            instruction ~= [opcodes[ptr + 1]].toHexString();
+            ptr++;
             break;
         case 0x75:
-            instruction ~= "jnz ";
+            instruction ~= "jnz $ + 0x";
+            instruction ~= [opcodes[ptr + 1]].toHexString();
+            ptr++
             break;
         case 0x76:
-            instruction ~= "jbe ";
+            instruction ~= "jbe $ + 0x";
+            instruction ~= [opcodes[ptr + 1]].toHexString();
+            ptr++;
             break;
         case 0x77:
-            instruction ~= "ja ";
+            instruction ~= "ja $ + 0x";
+            instruction ~= [opcodes[ptr + 1]].toHexString();
+            ptr++;
             break;
 
         case 0x78:
-            instruction ~= "js ";
+            instruction ~= "js $ + 0x";
+            instruction ~= [opcodes[ptr + 1]].toHexString();
+            ptr++;
             break;
         case 0x79:
-            instruction ~= "jns ";
+            instruction ~= "jns $ + 0x";
+            instruction ~= [opcodes[ptr + 1]].toHexString();
+            ptr++;
             break;
         case 0x7A:
-            instruction ~= "jpe ";
+            instruction ~= "jpe $ + 0x";
+            instruction ~= [opcodes[ptr + 1]].toHexString();
+            ptr++;
             break;
         case 0x7B:
-            instruction ~= "jpo ";
+            instruction ~= "jpo $ + 0x";
+            instruction ~= [opcodes[ptr + 1]].toHexString();
+            ptr++
             break;
         case 0x7C:
-            instruction ~= "jl ";
+            instruction ~= "jl $ + 0x";
+            instruction ~= [opcodes[ptr + 1]].toHexString();
+            ptr++
             break;
         case 0x7D:
-            instruction ~= "jge ";
+            instruction ~= "jge $ + 0x";
+            instruction ~= [opcodes[ptr + 1]].toHexString();
+            ptr++
             break;
         case 0x7E:
-            instruction ~= "jle ";
+            instruction ~= "jle $ + 0x";
+            instruction ~= [opcodes[ptr + 1]].toHexString();
+            ptr++
             break;
         case 0x7F:
-            instruction ~= "jg ";
+            instruction ~= "jg $ + ";
+            instruction ~= [opcodes[ptr + 1]].toHexString();
+            ptr++
             break;
 
         //all the pain and suffering from dealing with 0x60 has been transfered to 0x80
@@ -621,43 +728,55 @@ interpreter_information* interpreter(ubyte[] opcodes){
 
         case 0x84:
             instruction ~= "test ";
+            modrm_byte = 1;
             break;
         case 0x85:
             instruction ~= "test ";
+            modrm_byte = 1;
             break;
 
         case 0x86:
             instruction ~= "xchg ";
+            modrm_byte = 1;
             break;
         case 0x87:
             instruction ~= "xchg ";
+            modrm_byte = 1;
             break;
 
         case 0x88:
             instruction ~= "mov ";
+            modrm_byte = 1;
             break;
         case 0x89:
             instruction ~= "mov ";
+            modrm_byte = 1;
             break;
         case 0x8A:
             instruction ~= "mov ";
+            modrm_byte = 1;
             break;
         case 0x8B:
             instruction ~= "mov ";
+            modrm_byte = 1;
             break;
         case 0x8C:
             instruction ~= "mov ";
+            modrm_byte = 1;
             break;
 
         case 0x8D:
             instruction ~= "lea ";
+            modrm_byte = 1;
             break;
 
         case 0x8E:
             instruction ~= "mov ";
+            modrm_byte = 1;
             break;
         case 0x8F:
             instruction ~= "pop ";
+            modrm_byte = 1;
             break;
         
         //0x90~0x9F is genuinely like the reward after witnessing the WORST design decision of ALL time
@@ -695,7 +814,11 @@ interpreter_information* interpreter(ubyte[] opcodes){
             break;
         
         case 0x9A:
-            instruction ~= "call ";
+            instruction ~= "call [0x";
+            instruction ~= [opcodes[ptr + 4],opcodes[ptr + 3]].toHexString();
+            instruction ~= " : 0x"
+            instruction ~= [opcodes[ptr + 2],opcodes[ptr + 1]].toHexString();
+            ptr = ptr + 4;
             break;
 
         case 0x9B:
@@ -715,21 +838,29 @@ interpreter_information* interpreter(ubyte[] opcodes){
             break;
     
         case 0xA0:
-            instruction ~= "mov al, ";
+            instruction ~= "mov al, [ds : 0x";
+            instruction ~= [opcodes[ptr + 2],opcodes[ptr + 1]].toHexString();
+            instruction ~= "]"
+            ptr = ptr + 2;
             break;
         case 0xA1:
-            instruction ~= "mov ax, ";
+            instruction ~= "mov ax, [";
+            instruction ~= [opcodes[ptr + 2],opcodes[ptr + 1]].toHexString();
+            instruction ~= "]"
+            ptr = ptr + 2;
             break;
         //in this case, we're gonna just fetch the next byte instead to simplify the model
         case 0xA2:
             instruction ~= "mov [0x";
             instruction ~= [opcodes[ptr + 1]].toHexString(); //here: https://forum.dlang.org/thread/ghwlquntplrpzojoptuy@forum.dlang.org
             instruction ~= "], al";
+            ptr++
             break;
         case 0xA3:
             instruction ~= "mov [0x";
             instruction ~= [opcodes[ptr+2], opcodes[ptr+1]].toHexString(); //here: https://forum.dlang.org/thread/ghwlquntplrpzojoptuy@forum.dlang.org
             instruction ~= "], ax";
+            ptr = ptr + 2;
             break;
         
         case 0xA4:
@@ -748,10 +879,12 @@ interpreter_information* interpreter(ubyte[] opcodes){
         case 0xA8:
             instruction ~= "test al, 0x";
             instruction ~= [opcodes[ptr+1]].toHexString();
+            ptr++;
             break;
         case 0xA9:
-            instruction ~= "test al, 0x";
-            instruction ~= [opcodes[ptr+1],opcodes[ptr+2]].toHexString();
+            instruction ~= "test ax, 0x";
+            instruction ~= [opcodes[ptr+2],opcodes[ptr+1]].toHexString();
+            ptr = ptr + 2;
             break;
     
         case 0xAA:
@@ -777,30 +910,37 @@ interpreter_information* interpreter(ubyte[] opcodes){
         case 0xB0:
             instruction ~= "mov al, 0x";
             instruction ~= [opcodes[ptr+1]].toHexString();
+            ptr++;
             break;
         case 0xB1:
             instruction ~= "mov cl, 0x";
             instruction ~= [opcodes[ptr+1]].toHexString();
+            ptr++;
             break;
         case 0xB2:
             instruction ~= "mov dl, 0x";
             instruction ~= [opcodes[ptr+1]].toHexString();
+            ptr++;
             break;
         case 0xB3:
             instruction ~= "mov bl, 0x";
             instruction ~= [opcodes[ptr+1]].toHexString();
+            ptr++;
             break;
         case 0xB4:
             instruction ~= "mov ah, 0x";
             instruction ~= [opcodes[ptr+1]].toHexString();
+            ptr++;
             break;
         case 0xB5:
             instruction ~= "mov ch, 0x";
             instruction ~= [opcodes[ptr+1]].toHexString();
+            ptr++;
             break;
         case 0xB6:
             instruction ~= "mov dh, 0x";
             instruction ~= [opcodes[ptr+1]].toHexString();
+            ptr++;
             break;
         case 0xB7:
             instruction ~= "mov bh, 0x";
@@ -810,34 +950,42 @@ interpreter_information* interpreter(ubyte[] opcodes){
         case 0xB8:
             instruction ~= "mov ax, 0x";
             instruction ~= [opcodes[ptr+2], opcodes[ptr+1]].toHexString();
+            ptr = ptr + 2;;
             break;
         case 0xB9:
             instruction ~= "mov cx, 0x";
             instruction ~= [opcodes[ptr+2], opcodes[ptr+1]].toHexString();
+            ptr = ptr + 2;
             break;
         case 0xBA:
             instruction ~= "mov dx, 0x";
             instruction ~= [opcodes[ptr+2], opcodes[ptr+1]].toHexString();
+            ptr = ptr + 2;
             break;
         case 0xBB:
             instruction ~= "mov bx, 0x";
             instruction ~= [opcodes[ptr+2], opcodes[ptr+1]].toHexString();
+            ptr = ptr + 2;
             break;
         case 0xBC:
             instruction ~= "mov sp, 0x";
             instruction ~= [opcodes[ptr+2], opcodes[ptr+1]].toHexString();
+            ptr = ptr + 2;
             break;
         case 0xBD:
             instruction ~= "mov bp, 0x";
             instruction ~= [opcodes[ptr+2], opcodes[ptr+1]].toHexString();
+            ptr = ptr + 2;
             break;
         case 0xBE:
             instruction ~= "mov si, 0x";
             instruction ~= [opcodes[ptr+2], opcodes[ptr+1]].toHexString();
+            ptr = ptr + 2;
             break;
         case 0xBF:
             instruction ~= "mov di, 0x";
             instruction ~= [opcodes[ptr+2], opcodes[ptr+1]].toHexString();
+            ptr = ptr + 2;
             break;
 
         //undocumented??
@@ -849,6 +997,7 @@ interpreter_information* interpreter(ubyte[] opcodes){
         case 0xC2:
             instruction ~= "ret ";
             instruction ~= [opcodes[ptr+2], opcodes[ptr+1]].toHexString();
+            ptr = ptr + 2;
             break;
         case 0xC3:
             instruction ~= "ret";
@@ -856,15 +1005,20 @@ interpreter_information* interpreter(ubyte[] opcodes){
         
         case 0xC4:
             instruction ~= "les";
+            modrm_byte = 1;
             break;
         case 0xC5:
             instruction ~= "lds";
+            modrm_byte = 1;
             break;
         case 0xC6:
             instruction ~= "mov ";
+            modrm_byte = 1;
             break;
         case 0xC7:
             instruction ~= "mov ";
+            modrm_byte = 1;
+            break;
 
         case 0xCA:
             instruction ~= "retf 0x";
@@ -881,10 +1035,11 @@ interpreter_information* interpreter(ubyte[] opcodes){
         case 0xCD:
             instruction ~= "int 0x";
             instruction ~= [opcodes[ptr+1]].toHexString();
+            ptr = ptr + 1;
             break;
 
         case 0xCE:
-            instruction ~= "intO";
+            instruction ~= "into";
             break;
         case 0xCF:
             instruction ~= "iret";
@@ -907,11 +1062,13 @@ interpreter_information* interpreter(ubyte[] opcodes){
         case 0xD4:
             instruction ~= "aam 0x";
             instruction ~= [opcodes[ptr+1]].toHexString();
+            ptr++
             break;
 
         case 0xD5:
             instruction ~= "aad 0x";
             instruction ~= [opcodes[ptr+1]].toHexString();
+            ptr++
             break;
         
         case 0xD6:
@@ -942,54 +1099,66 @@ interpreter_information* interpreter(ubyte[] opcodes){
         case 0xE0:
             instruction ~= "loopnz $ + 0x";
             instruction ~= [opcodes[ptr+1]].toHexString();
+            ptr++;
             break;
         case 0xE1:
             instruction ~= "loopz $ + 0x";
             instruction ~= [opcodes[ptr+1]].toHexString();
+            ptr++;
             break;
         case 0xE2:
             instruction ~= "loop $ + 0x";
             instruction ~= [opcodes[ptr+1]].toHexString();
+            ptr++;
             break;
         case 0xE3:
             instruction ~= "jcxz $ + 0x";
             instruction ~= [opcodes[ptr+1]].toHexString();
+            ptr++;
             break;
         
         case 0xE4:
             instruction ~= "in al, 0x"
             instruction ~= [opcodes[ptr+1]].toHexString();
+            ptr++;
             break;
         case 0xE5:
             instruction ~= "in ax, 0x"
             instruction ~= [opcodes[ptr+1]].toHexString();
+            ptr++;
             break;
         case 0xE6:
             instruction ~= "out 0x";
             instruction ~= [opcodes[ptr+1]].toHexString();
             instruction ~= ", al";
+            ptr++;
             break;
         case 0xE7:
             instruction ~= "out 0x";
             instruction ~= [opcodes[ptr+1]].toHexString();
             instruction ~= ", ax";
+            ptr++;
             break;
         
         case 0xE8:
             instruction ~= "call $ + 0x";
             instruction ~= [opcodes[ptr+2], opcodes[ptr+1]].toHexString();
+            ptr = ptr + 2;
             break;
         case 0xE9:
             instruction ~= "jmp $ + 0x";
             instruction ~= [opcodes[ptr+2], opcodes[ptr+1]].toHexString();
+            ptr = ptr + 2;
             break;
         case 0xEA:
             instruction ~= "jmp 0x";
             instruction ~= [opcodes[ptr+2], opcodes[ptr+1]].toHexString();
+            ptr = ptr + 2;
             break;
         case 0xEB:
             instruction ~= "jmp 0x";
             instruction ~= [opcodes[ptr+1]].toHexString();
+            ptr++;
             break;
         
         case 0xEC:
@@ -1059,6 +1228,8 @@ interpreter_information* interpreter(ubyte[] opcodes){
     }     
     
     ptr++;
+
+
 }
 
 // Source: http://www.mlsite.net/8086/#addr_G
