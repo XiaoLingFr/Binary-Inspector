@@ -6,6 +6,7 @@ module disasm8086;
 
 import std.file;
 import std.stdio;
+import std.conv;
 
 /*
     Direction of the instructions
@@ -253,359 +254,359 @@ interpreter_information* interpreter(ubyte[] opcodes){
 
     switch(opcode){
         case 0x00:
-            instruction = instruction ~ "add ";
+            instruction ~= "add ";
             break;
         case 0x01:
-            instruction = instruction ~ "add ";
+            instruction ~= "add ";
             break;
         case 0x02:
-            instruction = instruction ~ "add ";
+            instruction ~= "add ";
             break;
         case 0x03:
-            instruction = instruction ~ "add ";
+            instruction ~= "add ";
             break;
         case 0x04:
-            instruction = instruction ~ "add ";
+            instruction ~= "add ";
             break;
         case 0x05:
-            instruction = instruction ~ "add ";
+            instruction ~= "add ";
             break;
         
         case 0x06:
-            instruction = instruction ~ "push es ";
+            instruction ~= "push es ";
             break;
         case 0x07:
-            instruction = instruction ~ "pop es ";
+            instruction ~= "pop es ";
             break;
 
         case 0x08:
-            instruction = instruction ~ "or ";
+            instruction ~= "or ";
             break;
         case 0x09:
-            instruction = instruction ~ "or ";
+            instruction ~= "or ";
             break;
         case 0x0A:
-            instruction = instruction ~ "or ";
+            instruction ~= "or ";
             break;
         case 0x0B:
-            instruction = instruction ~ "or ";
+            instruction ~= "or ";
             break;
         case 0x0C:
-            instruction = instruction ~ "or ";
+            instruction ~= "or ";
             break;
         case 0x0D:
-            instruction = instruction ~ "or ";
+            instruction ~= "or ";
             break;
 
         case 0x0E:
-            instruction = instruction ~ "push cs";
+            instruction ~= "push cs";
             break;
         case 0x0F:
-            instruction = instruction ~ "pop cs";
+            instruction ~= "pop cs";
             break;
 
         case 0x10:
-            instruction = instruction ~ "adc ";
+            instruction ~= "adc ";
             break;
         case 0x11:
-            instruction = instruction ~ "adc ";
+            instruction ~= "adc ";
             break;
         case 0x12:
-            instruction = instruction ~ "adc ";
+            instruction ~= "adc ";
             break;
         case 0x13:
-            instruction = instruction ~ "adc ";
+            instruction ~= "adc ";
             break;
         case 0x14:
-            instruction = instruction ~ "adc ";
+            instruction ~= "adc ";
             break;
         case 0x15:
-            instruction = instruction ~ "adc ";
+            instruction ~= "adc ";
             break;
 
         case 0x16:
-            instruction = instruction ~ "push ss";
+            instruction ~= "push ss";
             break;
         case 0x17:
-            instruction = instruction ~ "pop ss";
+            instruction ~= "pop ss";
             break;
         
         case 0x18:
-            instruction = instruction ~ "sbb ";
+            instruction ~= "sbb ";
             break;
         case 0x19:
-            instruction = instruction ~ "sbb ";
+            instruction ~= "sbb ";
             break;
         case 0x1A:
-            instruction = instruction ~ "sbb ";
+            instruction ~= "sbb ";
             break;
         case 0x1B:
-            instruction = instruction ~ "sbb ";
+            instruction ~= "sbb ";
             break;
         case 0x1C:
-            instruction = instruction ~ "sbb ";
+            instruction ~= "sbb ";
             break;
         case 0x1D:
-            instruction = instruction ~ "sbb ";
+            instruction ~= "sbb ";
             break;
         
         case 0x1E:
-            instruction = instruction ~ "push ds";
+            instruction ~= "push ds";
             break;
         case 0x1F:
-            instruction = instruction ~ "pop ds";
+            instruction ~= "pop ds";
             break;
 
         case 0x20:
-            instruction = instruction ~ "and ";
+            instruction ~= "and ";
             break;
         case 0x21:
-            instruction = instruction ~ "and ";
+            instruction ~= "and ";
             break;
         case 0x22:
-            instruction = instruction ~ "and ";
+            instruction ~= "and ";
             break;
         case 0x23:
-            instruction = instruction ~ "and ";
+            instruction ~= "and ";
             break;
         case 0x24:
-            instruction = instruction ~ "and ";
+            instruction ~= "and ";
             break;
         case 0x25:
-            instruction = instruction ~ "and ";
+            instruction ~= "and ";
             break;
         
         case 0x26:
             break;
         case 0x27:
-            instruction = instruction ~ "daa";
+            instruction ~= "daa";
             break;
         
         case 0x28:
-            instruction = instruction ~ "sub ";
+            instruction ~= "sub ";
             break;
         case 0x29:
-            instruction = instruction ~ "sub ";
+            instruction ~= "sub ";
             break;
         case 0x2A:
-            instruction = instruction ~ "sub ";
+            instruction ~= "sub ";
             break;
         case 0x2B:
-            instruction = instruction ~ "sub ";
+            instruction ~= "sub ";
             break;
         case 0x2C:
-            instruction = instruction ~ "sub ";
+            instruction ~= "sub ";
             break;
         case 0x2D:
-            instruction = instruction ~ "sub ";
+            instruction ~= "sub ";
             break;
 
         case 0x2E:
             break;
         case 0x2F:
-            instruction = instruction ~ "das";
+            instruction ~= "das";
             break;
 
         case 0x30:
-            instruction = instruction ~ "xor";
+            instruction ~= "xor";
             break;
         case 0x31:
-            instruction = instruction ~ "xor ";
+            instruction ~= "xor ";
             break;
         case 0x32:
-            instruction = instruction ~ "xor ";
+            instruction ~= "xor ";
             break;
         case 0x33:
-            instruction = instruction ~ "xor ";
+            instruction ~= "xor ";
             break;
         case 0x34:
-            instruction = instruction ~ "xor ";
+            instruction ~= "xor ";
             break;
         case 0x35:
-            instruction = instruction ~ "xor ";
+            instruction ~= "xor ";
             break;
 
         case 0x36:
             break;
         case 0x37:
-            instruction = instruction ~ "aaa";
+            instruction ~= "aaa";
             break;
 
         case 0x38:
-            instruction = instruction ~ "cmp ";
+            instruction ~= "cmp ";
             break;
         case 0x39:
-            instruction = instruction ~ "cmp ";
+            instruction ~= "cmp ";
             break;
         case 0x3A:
-            instruction = instruction ~ "cmp ";
+            instruction ~= "cmp ";
             break;
         case 0x3B:
-            instruction = instruction ~ "cmp ";
+            instruction ~= "cmp ";
             break;
         case 0x3C:
-            instruction = instruction ~ "cmp ";
+            instruction ~= "cmp ";
             break;
         case 0x3D:
-            instruction = instruction ~ "cmp ";
+            instruction ~= "cmp ";
             break;
 
         case 0x3E:
             break;
         case 0x3F:
-            instruction = instruction ~ "aas";
+            instruction ~= "aas";
             break;
 
         case 0x40:
-            instruction = instruction ~ "inc ax";
+            instruction ~= "inc ax";
             break;
         case 0x41:
-            instruction = instruction ~ "inc cx";
+            instruction ~= "inc cx";
             break;
         case 0x42:
-            instruction = instruction ~ "inc dx";
+            instruction ~= "inc dx";
             break;
         case 0x43:
-            instruction = instruction ~ "inc bx";
+            instruction ~= "inc bx";
             break;
         case 0x44:
-            instruction = instruction ~ "inc sp";
+            instruction ~= "inc sp";
             break;
         case 0x45:
-            instruction = instruction ~ "inc bp";
+            instruction ~= "inc bp";
             break;
         case 0x46:
-            instruction = instruction ~ "inc si";
+            instruction ~= "inc si";
             break;
         case 0x47:
-            instruction = instruction ~ "inc di";
+            instruction ~= "inc di";
             break;
 
         case 0x48:
-            instruction = instruction ~ "dec ax";
+            instruction ~= "dec ax";
             break;
         case 0x49:
-            instruction = instruction ~ "dec cx";
+            instruction ~= "dec cx";
             break;
         case 0x4A:
-            instruction = instruction ~ "dec dx";
+            instruction ~= "dec dx";
             break;
         case 0x4B:
-            instruction = instruction ~ "dec bx";
+            instruction ~= "dec bx";
             break;
         case 0x4C:
-            instruction = instruction ~ "dec sp";
+            instruction ~= "dec sp";
             break;
         case 0x4D:
-            instruction = instruction ~ "dec bp";
+            instruction ~= "dec bp";
             break;
         case 0x4E:
-            instruction = instruction ~ "dec si";
+            instruction ~= "dec si";
             break;
         case 0x4F:
-            instruction = instruction ~ "dec di";
+            instruction ~= "dec di";
             break;
         
         case 0x50:
-            instruction = instruction ~ "push ax";
+            instruction ~= "push ax";
             break;
         case 0x51:
-            instruction = instruction ~ "push cx";
+            instruction ~= "push cx";
             break;
         case 0x52:
-            instruction = instruction ~ "push dx";
+            instruction ~= "push dx";
             break;
         case 0x53:
-            instruction = instruction ~ "push bx";
+            instruction ~= "push bx";
             break;
         case 0x54:
-            instruction = instruction ~ "push sp";
+            instruction ~= "push sp";
             break;
         case 0x55:
-            instruction = instruction ~ "push bp";
+            instruction ~= "push bp";
             break;
         case 0x56:
-            instruction = instruction ~ "push si";
+            instruction ~= "push si";
             break;
         case 0x57:
-            instruction = instruction ~ "push di";
+            instruction ~= "push di";
             break;
 
         case 0x58:
-            instruction = instruction ~ "pop ax";
+            instruction ~= "pop ax";
             break;
         case 0x59:
-            instruction = instruction ~ "pop cx";
+            instruction ~= "pop cx";
             break;
         case 0x5A:
-            instruction = instruction ~ "pop dx";
+            instruction ~= "pop dx";
             break;
         case 0x5B:
-            instruction = instruction ~ "pop bx";
+            instruction ~= "pop bx";
             break;
         case 0x5C:
-            instruction = instruction ~ "pop sp";
+            instruction ~= "pop sp";
             break;
         case 0x5D:
-            instruction = instruction ~ "pop bp";
+            instruction ~= "pop bp";
             break;
         case 0x5E:
-            instruction = instruction ~ "pop si";
+            instruction ~= "pop si";
             break;
         case 0x5F:
-            instruction = instruction ~ "pop di";
+            instruction ~= "pop di";
             break;
     
         //thank the intel engineers that 0x60 ~ 0x6F is invalid lmao
 
         case 0x70:
-            instruction = instruction ~ "jo ";
+            instruction ~= "jo ";
             break;
         case 0x71:
-            instruction = instruction ~ "jno ";
+            instruction ~= "jno ";
             break;
         case 0x72:
-            instruction = instruction ~ "jb ";
+            instruction ~= "jb ";
             break;
         case 0x73:
-            instruction = instruction ~ "jnb ";
+            instruction ~= "jnb ";
             break;
         case 0x74:
-            instruction = instruction ~ "jz ";
+            instruction ~= "jz ";
             break;
         case 0x75:
-            instruction = instruction ~ "jnz ";
+            instruction ~= "jnz ";
             break;
         case 0x76:
-            instruction = instruction ~ "jbe ";
+            instruction ~= "jbe ";
             break;
         case 0x77:
-            instruction = instruction ~ "ja ";
+            instruction ~= "ja ";
             break;
 
         case 0x78:
-            instruction = instruction ~ "js ";
+            instruction ~= "js ";
             break;
         case 0x79:
-            instruction = instruction ~ "jns ";
+            instruction ~= "jns ";
             break;
         case 0x7A:
-            instruction = instruction ~ "jpe ";
+            instruction ~= "jpe ";
             break;
         case 0x7B:
-            instruction = instruction ~ "jpo ";
+            instruction ~= "jpo ";
             break;
         case 0x7C:
-            instruction = instruction ~ "jl ";
+            instruction ~= "jl ";
             break;
         case 0x7D:
-            instruction = instruction ~ "jge ";
+            instruction ~= "jge ";
             break;
         case 0x7E:
-            instruction = instruction ~ "jle ";
+            instruction ~= "jle ";
             break;
         case 0x7F:
-            instruction = instruction ~ "jg ";
+            instruction ~= "jg ";
             break;
 
         //all the pain and suffering from dealing with 0x60 has been transfered to 0x80
@@ -619,100 +620,445 @@ interpreter_information* interpreter(ubyte[] opcodes){
             break;
 
         case 0x84:
-            instruction = instruction ~ "test ";
+            instruction ~= "test ";
             break;
         case 0x85:
-            instruction = instruction ~ "test ";
+            instruction ~= "test ";
             break;
 
         case 0x86:
-            instruction = instruction ~ "xchg ";
+            instruction ~= "xchg ";
             break;
         case 0x87:
-            instruction = instruction ~ "xchg ";
+            instruction ~= "xchg ";
             break;
 
         case 0x88:
-            instruction = instruction ~ "mov ";
+            instruction ~= "mov ";
             break;
         case 0x89:
-            instruction = instruction ~ "mov ";
+            instruction ~= "mov ";
             break;
         case 0x8A:
-            instruction = instruction ~ "mov ";
+            instruction ~= "mov ";
             break;
         case 0x8B:
-            instruction = instruction ~ "mov ";
+            instruction ~= "mov ";
             break;
         case 0x8C:
-            instruction = instruction ~ "mov ";
+            instruction ~= "mov ";
             break;
 
         case 0x8D:
-            instruction = instruction ~ "lea ";
+            instruction ~= "lea ";
             break;
 
         case 0x8E:
-            instruction = instruction ~ "mov ";
+            instruction ~= "mov ";
             break;
         case 0x8F:
-            instruction = instruction ~ "pop ";
+            instruction ~= "pop ";
             break;
         
         //0x90~0x9F is genuinely like the reward after witnessing the WORST design decision of ALL time
         case 0x90:
-            instruction = instruction ~ "nop";
+            instruction ~= "nop";
             break;
         
         case 0x91:
-            instruction = instruction ~ "xchg CX, AX";
+            instruction ~= "xchg CX, AX";
             break;
         case 0x92:
-            instruction = instruction ~ "xchg DX, AX";
+            instruction ~= "xchg DX, AX";
             break;
         case 0x93:
-            instruction = instruction ~ "xchg BX, AX";
+            instruction ~= "xchg BX, AX";
             break;
         case 0x94:
-            instruction = instruction ~ "xchg SP, AX";
+            instruction ~= "xchg SP, AX";
             break;
         case 0x95:
-            instruction = instruction ~ "xchg BP, AX";
+            instruction ~= "xchg BP, AX";
             break;
         case 0x96:
-            instruction = instruction ~ "xchg SI, AX";
+            instruction ~= "xchg SI, AX";
             break;
         case 0x97:
-            instruction = instruction ~ "xchg DI, AX";
+            instruction ~= "xchg DI, AX";
             break;
 
         case 0x98:
-            instruction = instruction ~ "cbw";
+            instruction ~= "cbw";
             break
         case 0x99:
-            instruction = instruction ~ "cwd";
+            instruction ~= "cwd";
             break;
         
         case 0x9A:
-            instruction = instruction ~ "call ";
+            instruction ~= "call ";
             break;
 
         case 0x9B:
-            instruction = instruction ~ "wait";
+            instruction ~= "wait";
             break;
         case 0x9C:
-            instruction = instruction ~ "pushf";
+            instruction ~= "pushf";
             break;
         case 0x9D:
-            instruction = instruction ~ "popf";
+            instruction ~= "popf";
             break;
         case 0x9E:
-            instruction = instruction ~ "sahf";
+            instruction ~= "sahf";
             break;
         case 0x9F:
-            instruction = instruction ~ "LAHF";
+            instruction ~= "LAHF";
             break;
-    }   
+    
+        case 0xA0:
+            instruction ~= "mov al, ";
+            break;
+        case 0xA1:
+            instruction ~= "mov ax, ";
+            break;
+        //in this case, we're gonna just fetch the next byte instead to simplify the model
+        case 0xA2:
+            instruction ~= "mov [0x";
+            instruction ~= [opcodes[ptr + 1]].toHexString(); //here: https://forum.dlang.org/thread/ghwlquntplrpzojoptuy@forum.dlang.org
+            instruction ~= "], al";
+            break;
+        case 0xA3:
+            instruction ~= "mov [0x";
+            instruction ~= [opcodes[ptr+2], opcodes[ptr+1]].toHexString(); //here: https://forum.dlang.org/thread/ghwlquntplrpzojoptuy@forum.dlang.org
+            instruction ~= "], ax";
+            break;
+        
+        case 0xA4:
+            instruction ~= "movsb";
+            break;
+        case 0xA5:
+            instruction ~= "movsw";
+            break;
+        case 0xA6:
+            instruction ~= "cmpsb";
+            break;
+        case 0xA7:
+            instruction ~= "cmpsw";
+            break;
+
+        case 0xA8:
+            instruction ~= "test al, 0x";
+            instruction ~= [opcodes[ptr+1]].toHexString();
+            break;
+        case 0xA9:
+            instruction ~= "test al, 0x";
+            instruction ~= [opcodes[ptr+1],opcodes[ptr+2]].toHexString();
+            break;
+    
+        case 0xAA:
+            instruction ~= "stosb";
+            break;
+        case 0xAB:
+            instruction ~= "stosw";
+            break;
+        case 0xAC:
+            instruction ~= "lodsb";
+            break;
+        case 0xAD:
+            instruction ~= "lodsw";
+            break;
+        case 0xAE:
+            instruction ~= "scasb";
+            break;
+        case 0xAF:
+            instruction ~= "scansw";
+            break;
+        
+        //another GOATED instruction level. I love 0xB0~0xBF
+        case 0xB0:
+            instruction ~= "mov al, 0x";
+            instruction ~= [opcodes[ptr+1]].toHexString();
+            break;
+        case 0xB1:
+            instruction ~= "mov cl, 0x";
+            instruction ~= [opcodes[ptr+1]].toHexString();
+            break;
+        case 0xB2:
+            instruction ~= "mov dl, 0x";
+            instruction ~= [opcodes[ptr+1]].toHexString();
+            break;
+        case 0xB3:
+            instruction ~= "mov bl, 0x";
+            instruction ~= [opcodes[ptr+1]].toHexString();
+            break;
+        case 0xB4:
+            instruction ~= "mov ah, 0x";
+            instruction ~= [opcodes[ptr+1]].toHexString();
+            break;
+        case 0xB5:
+            instruction ~= "mov ch, 0x";
+            instruction ~= [opcodes[ptr+1]].toHexString();
+            break;
+        case 0xB6:
+            instruction ~= "mov dh, 0x";
+            instruction ~= [opcodes[ptr+1]].toHexString();
+            break;
+        case 0xB7:
+            instruction ~= "mov bh, 0x";
+            instruction ~= [opcodes[ptr+1]].toHexString();
+            break;
+        
+        case 0xB8:
+            instruction ~= "mov ax, 0x";
+            instruction ~= [opcodes[ptr+2], opcodes[ptr+1]].toHexString();
+            break;
+        case 0xB9:
+            instruction ~= "mov cx, 0x";
+            instruction ~= [opcodes[ptr+2], opcodes[ptr+1]].toHexString();
+            break;
+        case 0xBA:
+            instruction ~= "mov dx, 0x";
+            instruction ~= [opcodes[ptr+2], opcodes[ptr+1]].toHexString();
+            break;
+        case 0xBB:
+            instruction ~= "mov bx, 0x";
+            instruction ~= [opcodes[ptr+2], opcodes[ptr+1]].toHexString();
+            break;
+        case 0xBC:
+            instruction ~= "mov sp, 0x";
+            instruction ~= [opcodes[ptr+2], opcodes[ptr+1]].toHexString();
+            break;
+        case 0xBD:
+            instruction ~= "mov bp, 0x";
+            instruction ~= [opcodes[ptr+2], opcodes[ptr+1]].toHexString();
+            break;
+        case 0xBE:
+            instruction ~= "mov si, 0x";
+            instruction ~= [opcodes[ptr+2], opcodes[ptr+1]].toHexString();
+            break;
+        case 0xBF:
+            instruction ~= "mov di, 0x";
+            instruction ~= [opcodes[ptr+2], opcodes[ptr+1]].toHexString();
+            break;
+
+        //undocumented??
+        case 0xC0:
+            break;
+        case 0xC1:
+            break;
+
+        case 0xC2:
+            instruction ~= "ret ";
+            instruction ~= [opcodes[ptr+2], opcodes[ptr+1]].toHexString();
+            break;
+        case 0xC3:
+            instruction ~= "ret";
+            break;
+        
+        case 0xC4:
+            instruction ~= "les";
+            break;
+        case 0xC5:
+            instruction ~= "lds";
+            break;
+        case 0xC6:
+            instruction ~= "mov ";
+            break;
+        case 0xC7:
+            instruction ~= "mov ";
+
+        case 0xCA:
+            instruction ~= "retf 0x";
+            instruction ~= [opcodes[ptr+2], opcodes[ptr+1]].toHexString();
+            break;
+        case 0xCB:
+            instruction ~= "retf";
+            break;
+        
+        case 0xCC:
+            instruction ~= "int 3";
+            break;
+
+        case 0xCD:
+            instruction ~= "int 0x";
+            instruction ~= [opcodes[ptr+1]].toHexString();
+            break;
+
+        case 0xCE:
+            instruction ~= "intO";
+            break;
+        case 0xCF:
+            instruction ~= "iret";
+            break;
+        
+        //GRP 2, Byte argument
+        case 0xD0:
+            break;
+        //GRP 2, word argument
+        case 0xD1:
+            break;
+
+        //GRP 2, CL argument
+        case 0xD2:
+            break;
+        //GRP 2, CL argument, somehow with a word argument?
+        case 0xD3:
+            break;
+
+        case 0xD4:
+            instruction ~= "aam 0x";
+            instruction ~= [opcodes[ptr+1]].toHexString();
+            break;
+
+        case 0xD5:
+            instruction ~= "aad 0x";
+            instruction ~= [opcodes[ptr+1]].toHexString();
+            break;
+        
+        case 0xD6:
+            break;
+        
+        case 0xD7:
+            instruction ~= "xlat";
+            break;
+        
+        //invalid opcodes
+        case 0xD8:
+            break;
+        case 0xD9:
+            break;
+        case 0xDA:
+            break;
+        case 0xDB:
+            break;
+        case 0xDC:
+            break;
+        case 0xDD:
+            break;
+        case 0xDE:
+            break;
+        case 0xDF:
+            break;
+        
+        case 0xE0:
+            instruction ~= "loopnz $ + 0x";
+            instruction ~= [opcodes[ptr+1]].toHexString();
+            break;
+        case 0xE1:
+            instruction ~= "loopz $ + 0x";
+            instruction ~= [opcodes[ptr+1]].toHexString();
+            break;
+        case 0xE2:
+            instruction ~= "loop $ + 0x";
+            instruction ~= [opcodes[ptr+1]].toHexString();
+            break;
+        case 0xE3:
+            instruction ~= "jcxz $ + 0x";
+            instruction ~= [opcodes[ptr+1]].toHexString();
+            break;
+        
+        case 0xE4:
+            instruction ~= "in al, 0x"
+            instruction ~= [opcodes[ptr+1]].toHexString();
+            break;
+        case 0xE5:
+            instruction ~= "in ax, 0x"
+            instruction ~= [opcodes[ptr+1]].toHexString();
+            break;
+        case 0xE6:
+            instruction ~= "out 0x";
+            instruction ~= [opcodes[ptr+1]].toHexString();
+            instruction ~= ", al";
+            break;
+        case 0xE7:
+            instruction ~= "out 0x";
+            instruction ~= [opcodes[ptr+1]].toHexString();
+            instruction ~= ", ax";
+            break;
+        
+        case 0xE8:
+            instruction ~= "call $ + 0x";
+            instruction ~= [opcodes[ptr+2], opcodes[ptr+1]].toHexString();
+            break;
+        case 0xE9:
+            instruction ~= "jmp $ + 0x";
+            instruction ~= [opcodes[ptr+2], opcodes[ptr+1]].toHexString();
+            break;
+        case 0xEA:
+            instruction ~= "jmp 0x";
+            instruction ~= [opcodes[ptr+2], opcodes[ptr+1]].toHexString();
+            break;
+        case 0xEB:
+            instruction ~= "jmp 0x";
+            instruction ~= [opcodes[ptr+1]].toHexString();
+            break;
+        
+        case 0xEC:
+            instruction ~= "in al, dx";
+            break;
+        case 0xED:
+            instruction ~= "in ax, dx";
+            break;
+        case 0xEE:
+            instruction ~= "out dx, al";
+            break;
+        case 0xEF:
+            instruction ~= "out dx, ax";
+            break;
+        
+        case 0xF0:
+            break;
+        
+        case 0xF1:
+            break;
+        
+        case 0xF2:
+            break;
+        case 0xF3:
+            break;
+        case 0xF4:
+            instruction ~= "hlt";
+            break;
+        case 0xF5:
+            instruction ~= "cmc";
+            break;
+        //GRP 3A
+        case 0xF6:
+            break;
+        //GRP 3B
+        case 0xF7:
+            break;
+        
+        case 0xF8:
+            instruction ~= "CLC";
+            break;
+        case 0xF9:
+            instruction ~= "STC";
+            break;
+        case 0xFA:
+            instruction ~= "CLI";
+            break;
+        case 0xFB:
+            instruction ~= "STI";
+            break;
+        case 0xFC:
+            instruction ~= "CLD";
+            break;
+        case 0xFD:
+            instruction ~= "STD";
+            break;
+        
+        //GRP 4A
+        case 0xFE:
+            break;
+        //GRP 4B
+        case 0xFF:
+            break;      
+        default:
+            instruction ~= "illegal instruction";
+            break;  
+    }     
+    
+    ptr++;
 }
 
 // Source: http://www.mlsite.net/8086/#addr_G
