@@ -790,12 +790,24 @@ interpreter_information* interpreter(ubyte[] opcodes){
 
         //all the pain and suffering from dealing with 0x60 has been transfered to 0x80
         case 0x80:
+            modrm_byte = 1;
+            wdth = width.small;
+            dtn = direction.from;
             break;
         case 0x81:
+            modrm_byte = 1;
+            wdth = width.large;
+            dtn = direction.from;
             break;
         case 0x82:
+            modrm_byte = 1;
+            wdth = width.small;
+            dtn = direction.from;
             break;
         case 0x83:
+            modrm_byte = 1;
+            wdth = width.large;
+            dtn = direction.from;
             break;
 
         case 0x84:
@@ -1143,16 +1155,28 @@ interpreter_information* interpreter(ubyte[] opcodes){
         
         //GRP 2, Byte argument
         case 0xD0:
+            modrm_byte = 1;
+            wdth = width.small;
+            dtn = direction.from;
             break;
         //GRP 2, word argument
         case 0xD1:
+            modrm_byte = 1;
+            wdth = width.large;
+            dtn = direction.from;
             break;
 
         //GRP 2, CL argument
         case 0xD2:
+            modrm_byte = 1;
+            wdth = width.small;
+            dtn = direction.from;
             break;
         //GRP 2, CL argument, somehow with a word argument?
         case 0xD3:
+            modrm_byte = 1;
+            wdth = width.large;
+            dtn = direction.from;
             break;
 
         case 0xD4:
@@ -1288,9 +1312,13 @@ interpreter_information* interpreter(ubyte[] opcodes){
             break;
         //GRP 3A
         case 0xF6:
+            modrm_byte = 1;
+            wdth = width.small;
             break;
         //GRP 3B
         case 0xF7:
+            modrm_byte = 1;
+            wdth = width.large;
             break;
         
         case 0xF8:
@@ -1314,9 +1342,13 @@ interpreter_information* interpreter(ubyte[] opcodes){
         
         //GRP 4A
         case 0xFE:
+            modrm_byte = 1;
+            wdth = width.small;
             break;
         //GRP 4B
         case 0xFF:
+            modrm_byte = 1;
+            wdth = width.large;
             break;      
         default:
             instruction ~= "illegal instruction";
@@ -1325,6 +1357,10 @@ interpreter_information* interpreter(ubyte[] opcodes){
     
     //to the next byte
     ptr++;
+
+    /*
+        check if its one of those fuckass instructions:
+    */
 
     /*
         at this point in time, a few values are known:
