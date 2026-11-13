@@ -2,8 +2,6 @@ module binsp;
 
 import std.stdio;
 import std.file;
-import executable;
-import disasm8086;
 
 char[] hexchar = 
 [
@@ -41,9 +39,9 @@ void main(string[] args){
         writeln("binsp help");
         writeln("binsp about");
         writeln("binsp read <file name> <file type>");
-        writeln("File types include: document, executable");
-        writeln("binsp disasm <file name> <architecture>");
-        writeln("Supported architectures: x86");
+        //writeln("File types include: document, executable");
+        //writeln("binsp disasm <file name> <architecture>");
+        //writeln("Supported architectures: x86");
     }
     else if(operation == "about"){
         writeln("Contributors: \nChengfu Zhao (XiaolingFr)");
@@ -99,10 +97,12 @@ void main(string[] args){
         if(filetype == "document"){
             standard_file(file, file_size);
         }
+        /*
         else if(filetype == "executable"){
             //do smth for now
             executable.disassemble(file, file_size);
         }
+        */
         else{
             writeln("File type not specified.");
         }
