@@ -53,6 +53,7 @@ void interpreter(File file, string filename){
                 writeln("seek left: shift the buffer backwards on the list by 1 buffer size");
                 writeln("seek right: shift the buffer forward on the list by 1 buffer size");
                 writeln("print: prints the buffer onto the screen");
+                writeln("poke: ");
                 break;
             case "set size buffer":
                 write("# buffer size: ");
