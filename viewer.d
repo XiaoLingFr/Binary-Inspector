@@ -90,7 +90,7 @@ void interpreter(File file, string filename){
             case "poke":
                 ulong current_pos = current_byte;
                 write("# buffer start offset: ");
-                ulong offset;
+                int offset;
                 ubyte data;
                 string temp;
                 try{
