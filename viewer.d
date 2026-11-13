@@ -47,11 +47,18 @@ void interpreter(File file, string filename){
             case "exit":
                 exit = true;
                 break;
+            case "help":
+                writeln("set size buffer: set the amount of bytes you want to read from the file at a time | Min: 8, Max: 4096");
+                writeln("set display bytes: set the number of bytes you want to display per line | Min: 1, Max: 8");
+                writeln("seek left: shift the buffer backwards on the list by 1 buffer size");
+                writeln("seek right: shift the buffer forward on the list by 1 buffer size");
+                writeln("print: prints the buffer onto the screen");
+                break;
             case "set size buffer":
-                write(">> ");
+                write("# buffer size: ");
                 try{
                     ulong size;
-                    readf("%s", &size);
+                    readf("%s\n", &size);
                     if(size <= 4096 && size >= 8){
                         buffer.length = size;
                     }
@@ -65,10 +72,10 @@ void interpreter(File file, string filename){
                 break;
 
             case "set display bytes":
-                write(">> ");
+                write("# display bytes: ");
                 try{
                     ulong size;
-                    readf("%s", &size);
+                    readf("%s\n", &size);
                     if(size <= 8 && size >= 1){
                         display_byte = size;
                     }
@@ -79,6 +86,61 @@ void interpreter(File file, string filename){
                 catch(ConvException CE){
                     writeln("Invalid input.");
                 }
+                break;
+            case "poke":
+                ulong current_pos = current_byte;
+                write("# buffer start offset: ");
+                ulong offset;
+                ubyte data;
+                string temp;
+                try{
+                    readf("%s\n", &offset);
+                }
+                catch(ConvException CE){
+                    writeln("Invalid input");
+                    goto cont;
+                }
+
+                if( !(offset >=0 && offset <= buffer.length - 1) ){
+                    writeln("negative offsets or out of bounds offsets are not allowed");
+                    goto cont;
+                }
+                
+                try{
+                    readf("%s\n", temp);
+                }
+                catch(ConvException CE){
+                    writeln("Invalid input");
+                    goto cont;
+                }
+
+                if(temp.length > 2 || temp.length < 2){
+                    writeln("Not enough arguments given");
+                    goto cont;
+                }
+
+                if(
+                    ((temp[0] >= '0' && temp[0] <= '9') || (temp[0] >= 'A' && temp[0] <= 'F')) &&
+                    ((temp[1] >= '0' && temp[1] <= '9') || (temp[1] >= 'A' && temp[1] <= 'F'))
+                ){
+                    
+                    //convert to ubyte
+                    data = convertToByte(temp);
+                    //move file pointer to location
+                    file.seek(offset,SEEK_CUR);
+                    file.rawWrite([data]);
+                    file.seek(-1, SEEK_CUR);
+                    file.seek(-offset,SEEK_CUR);
+
+                    //update buffer
+                    buffer[offset] = data;
+
+                }
+                else{
+                    writeln("Input is not in uppercase hexadecimal for 1 byte, please try again");
+                }
+
+                cont:
                 break;
             
             case "seek left":
@@ -170,10 +232,10 @@ void interpreter(File file, string filename){
                     }
                     writeln();
                 }
-
                 break;
             default:
                 writeln("Operation not recognized");
+                break;
         }
         writeln();
     }
@@ -201,6 +263,7 @@ const char[] hexchar =
     'E',
     'F'
 ];
+
 string convertToHex(ubyte[] buffer, ulong seperation, ulong num){
     string hex;
     for(int i = 0; i<(num); i++){
@@ -217,4 +280,115 @@ string convertToHex(ubyte[] buffer, ulong seperation, ulong num){
         hex ~= hexchar[(buffer[i] & 0xF)];
     }
     return hex;
+}
+
+ubyte convertToByte(string num){
+    ubyte data = 0;
+    switch(num[0]){
+        case '0':
+            data = 0;
+            break;
+        case '1':
+            data = 1;
+            break;
+        case '2':
+            data = 2;
+            break;
+        case '3':
+            data = 3;
+            break;
+        case '4':
+            data = 4;
+            break;
+        case '5':
+            data = 5;
+            break;
+        case '6':
+            data = 6;
+            break;
+        case '7':
+            data = 7;
+            break;
+        case '8':
+            data = 8;
+            break;
+        case '9':
+            data = 9;
+            break;
+        case 'A':
+            data = 10;
+            break;
+        case 'B':
+            data = 11;
+            break;
+        case 'C':
+            data = 12;
+            break;
+        case 'D':
+            data = 13;
+            break;
+        case 'E':
+            data = 14;
+            break;
+        case 'F':
+            data = 15;
+            break;
+        default:
+            break;
+    }
+    data = cast(ubyte)(data<<4);
+
+    switch(num[1]){
+        case '0':
+            data = cast(ubyte)(data + 0);
+            break;
+        case '1':
+            data = cast(ubyte)(data + 1);
+            break;
+        case '2':
+            data = cast(ubyte)(data + 2);
+            break;
+        case '3':
+            data = cast(ubyte)(data + 3);
+            break;
+        case '4':
+            data = cast(ubyte)(data + 4);
+            break;
+        case '5':
+            data = cast(ubyte)(data + 5);
+            break;
+        case '6':
+            data = cast(ubyte)(data + 6);
+            break;
+        case '7':
+            data = cast(ubyte)(data + 7);
+            break;
+        case '8':
+            data = cast(ubyte)(data + 8);
+            break;
+        case '9':
+            data = cast(ubyte)(data + 9);
+            break;
+        case 'A':
+            data = cast(ubyte)(data + 10);
+            break;
+        case 'B':
+            data = cast(ubyte)(data + 11);
+            break;
+        case 'C':
+            data = cast(ubyte)(data + 12);
+            break;
+        case 'D':
+            data = cast(ubyte)(data + 13);
+            break;
+        case 'E':
+            data = cast(ubyte)(data + 14);
+            break;
+        case 'F':
+            data = cast(ubyte)(data + 15);
+            break;
+        default:
+            break;
+    }
+    return data;
 }

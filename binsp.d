@@ -40,6 +40,10 @@ void main(string[] args){
         writeln("binsp help");
         writeln("binsp about");
         writeln("binsp read <file name> <file type>");
+        writeln("File types:");
+        writeln("\t document:\t\tdumps the entire file content onto the screen");
+        writeln("\t large:\t\tused for large files.");
+
         //writeln("File types include: document, executable");
         //writeln("binsp disasm <file name> <architecture>");
         //writeln("Supported architectures: x86");
