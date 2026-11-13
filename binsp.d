@@ -2,6 +2,7 @@ module binsp;
 
 import std.stdio;
 import std.file;
+import viewer;
 
 char[] hexchar = 
 [
@@ -86,7 +87,7 @@ void main(string[] args){
         }
 
         try{
-            file = File(filename, "r");
+            file = File(filename, "r+");
             file_size = getSize(filename);
         }
         catch(FileException FE){
@@ -97,12 +98,12 @@ void main(string[] args){
         if(filetype == "document"){
             standard_file(file, file_size);
         }
-        /*
-        else if(filetype == "executable"){
+
+        else if(filetype == "large"){
             //do smth for now
-            executable.disassemble(file, file_size);
+            viewer.interpreter(file, filename);
         }
-        */
+
         else{
             writeln("File type not specified.");
         }
