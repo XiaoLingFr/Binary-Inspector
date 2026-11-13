@@ -1359,8 +1359,40 @@ interpreter_information* interpreter(ubyte[] opcodes){
     ptr++;
 
     /*
-        check if its one of those fuckass instructions:
+        check if its one of those fuckass GRP instructions:
+
+        Matter of fact they have their own logic im just gonna put them in here
     */
+    ubyte subinstruction;
+    switch(opcode){
+        case 0x80:
+            break;
+        case 0x81:
+            break;
+        case 0x82:
+            break;
+        case 0x83:
+            break;
+
+        case 0xD0:
+            break;
+        case 0xD1:
+            break;
+        case 0xD2:
+            break;
+        case 0xD3:
+            break;
+        case 0xF6:
+            break;
+        case 0xF7:
+            break;
+        case 0xFE:
+            break;
+        case 0xFF:
+            break
+        default:
+            break;
+    }
 
     /*
         at this point in time, a few values are known:

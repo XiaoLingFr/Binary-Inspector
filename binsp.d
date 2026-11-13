@@ -109,6 +109,7 @@ void main(string[] args){
 
         file.close();
     }
+    /*
     else if(operation == "disasm"){
         if(args.length < 4){
             writeln("Not enough arguments given.");
@@ -118,11 +119,10 @@ void main(string[] args){
             disasmx8086.binary_disassemble(file, file_size);
         }
     }
-
+    */
     else{
         writeln("Operation does not exist.");
     }
-
     exit:
     return;
 }
