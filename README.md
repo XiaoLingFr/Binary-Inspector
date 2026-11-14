@@ -10,10 +10,10 @@ large: allows you to seek left and right
 
 ***
 
-## Examples of large mode:
+# Examples of large mode:
 
 
-example 1:
+##example 1:
 
 user@User-MacBook-Pro ~ % binsp read test.txt large
 
@@ -80,7 +80,7 @@ Hello
 
 
 
-example 2:
+## example 2:
 
 user@User-MacBook-Pro ~ % binsp read test.txt large
 
@@ -108,7 +108,7 @@ hi guys, this might be the GREATEST program I have written. Type shi
 
 
 
-Another example:
+## Another example:
 
 /Users/user/test2.txt
 
