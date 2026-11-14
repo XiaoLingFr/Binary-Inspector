@@ -9,6 +9,10 @@ large: allows you to seek left and right
 # Warning: The project is designed to be unsafe. Be very careful of what you modify with this program.
 
 ***
+The program does not check for file I/O safety. (More or less it doesnt care what you write to a file and only cares about its own runtime safety).
+
+Be very careful lmao.
+***
 
 # Examples of large mode:
 
