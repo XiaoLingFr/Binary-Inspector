@@ -48,12 +48,14 @@ void interpreter(File file, string filename){
                 exit = true;
                 break;
             case "help":
+                writeln("load / reset: reset buffer or load file into buffer (useful when the program is on its first run)");
                 writeln("set size buffer: set the amount of bytes you want to read from the file at a time | Min: 8, Max: 4096");
                 writeln("set display bytes: set the number of bytes you want to display per line | Min: 1, Max: 8");
                 writeln("seek left: shift the buffer backwards on the list by 1 buffer size");
                 writeln("seek right: shift the buffer forward on the list by 1 buffer size");
                 writeln("print: prints the buffer onto the screen");
-                writeln("poke: ");
+                writeln("poke <offset> <hex>: writes <hex> at <offset> number of bytes relative to buffer start");
+                writeln("str insert <offset> <str>: writes <str> starting from <offset>");
                 break;
             case "set size buffer":
                 write("# buffer size: ");
@@ -90,10 +92,10 @@ void interpreter(File file, string filename){
                 break;
             case "poke":
                 ulong current_pos = current_byte;
-                write("# buffer start offset: ");
                 int offset;
                 ubyte data;
                 string temp;
+                write("# buffer start offset: ");
                 try{
                     readf("%s\n", &offset);
                 }
@@ -107,6 +109,7 @@ void interpreter(File file, string filename){
                     goto cont;
                 }
                 
+                write("# Hexadecimal Byte: ");
                 try{
                     readf("%s\n", temp);
                 }
@@ -144,6 +147,53 @@ void interpreter(File file, string filename){
                 cont:
                 break;
             
+            case "str insert":
+                int offset;
+                ulong save = current_byte;
+                string input;
+                write("# offset: ");
+                try{
+                    readf("%s\n", &offset);
+                }
+                catch(ConvException CE){
+                    writeln("Invalid input");
+                    goto str_insert_cont;
+                }
+
+                if( !(offset >=0 && offset <= buffer.length - 1) ){
+                    writeln("negative offsets or out of bounds offsets are not allowed");
+                    goto str_insert_cont;
+                }
+                write("# str: ");
+                input = readln();
+                stdin.flush();
+
+                file.seek(offset,SEEK_CUR);
+
+                for(int i = offset; i < buffer.length && (i - offset) < input.length; i++){
+                    buffer[i] = input[i - offset];
+                    file.rawWrite([input[i-offset]]);
+                }
+
+                file.seek(save,0);
+
+                str_insert_cont:
+                break;
+            
+            case "reset":
+                goto case "load";
+            case "load":
+                /*
+                    I'm so stupid I lowkey forgot that this program only loads when it seeks left and right 
+                    So I need a reset/load method
+                */
+                file.seek(current_byte, FILE_ORIGIN);
+                ulong save = current_byte;
+                //loads contents
+                ubyte[] read = file.rawRead(buffer);
+                file.seek(save, FILE_ORIGIN);
+                goto case "print";
+
             case "seek left":
                 /*
                     Case 1: the size of the file is less than the buffer
@@ -220,7 +270,7 @@ void interpreter(File file, string filename){
                     
                     for(int t = 0; t<temp_buf.length; t++){
                         if(temp_buf[t] >= 0x20 && temp_buf[t] <= 0x7E){
-                            write(temp_buf);
+                            write(cast(char)(temp_buf[t]));
                         }
                         else{
                             write("\uFFFD");
