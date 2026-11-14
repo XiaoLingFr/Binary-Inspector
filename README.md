@@ -20,34 +20,34 @@ Size: 3
 Compiled with: LDC | the LLVM D compiler (1.43.0)
 OK
 
->> poke
+\>> poke
 \# buffer start offset: 0
 48
 
->> 1
+\>> 1
 Operation not recognized
 
->> poke
+\>> poke
 \# buffer start offset: 1
 65
 
->> poke
+\>> poke
 \# buffer start offset: 2
 6C
 
->> poke
+\>> poke
 \# buffer start offset: 3
 6C
 
->> poke
+\>> poke
 \# buffer start offset: 4
 6F
 
->> poke
+\>> poke
 \# buffer start offset: 5
 0A
 
->> quit
+\>> quit
 
 user@Users-MacBook-Pro ~ % cat test.txt
 Hello
