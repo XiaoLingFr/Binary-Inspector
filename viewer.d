@@ -228,7 +228,7 @@ void interpreter(File file, string filename){
                     current_byte = 0;
                 }
                 else if(file_size - current_byte < buffer.length){
-                    current_byte = file_size - buffer.length - 1;
+                    current_byte = file_size - buffer.length;
                 }
                 else{
                     current_byte = current_byte + buffer.length;
